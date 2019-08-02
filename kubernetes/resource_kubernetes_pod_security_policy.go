@@ -65,9 +65,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "allowed_capabilities": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList,
+              Description:  "",
+              Optional:     true,
             }
           }
         },
@@ -75,9 +75,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "allowed_flex_volumes": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList,
+              Description:  "",
+              Optional:     true,
               // TODO: child elements
             }
           }
@@ -86,9 +86,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "allowed_host_paths": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList
+              Description:  "",
+              Optional:     true,
               // TODO: child elements
             }
           }
@@ -97,9 +97,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "allowed_proc_mount_types": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList
+              Description:  "",
+              Optional:     true,
             }
           }
         },
@@ -107,9 +107,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "allowed_unsafe_sysctls": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList,
+              Description:  "",
+              Optional:     true,
             }
           }
         },
@@ -117,9 +117,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "default_add_capabilities": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList,
+              Description:  "",
+              Optional:     true
             }
           }
         },
@@ -127,9 +127,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "default_allow_privilege_escalation": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeString,
+              Description:  "",
+              Optional:     true,
             }
           }
         },
@@ -137,9 +137,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "forbidden_sysctls": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList,
+              Description:  "",
+              Optional:     true,
             }
           }
         },
@@ -147,9 +147,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "fs_group": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList
+              Description:  "",
+              Optional:     true,
               // TODO: child elements
             }
           }
@@ -158,9 +158,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "host_ipc": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeString,
+              Description:  "",
+              Optional:     true,
             }
           }
         },
@@ -168,9 +168,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "host_network": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeString,
+              Description:  "",
+              Optional:     true,
             }
           }
         },
@@ -178,9 +178,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "host_pid": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TyprString,
+              Description:  "",
+              Optional:     true,
             }
           }
         },
@@ -188,9 +188,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "host_ports": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList
+              Description:  "",
+              Optional:     true,
               // TODO: child elements
             }
           }
@@ -199,9 +199,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "privileged": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeString,
+              Description:  "",
+              Optional:     true,
             }
           }
         },
@@ -209,9 +209,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "readonly_root_filesystem": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeString,
+              Description:  "",
+              Optional:     true,
             }
           }
         },
@@ -219,9 +219,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "required_drop_capabilities": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList,
+              Description:  "",
+              Optional:     true,
             }
           }
         },
@@ -229,9 +229,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "run_as_group": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList
+              Description:  "",
+              Optional:     true,
               // TODO: child elements
             }
           }
@@ -240,9 +240,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "run_as_user": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList
+              Description:  "",
+              Optional:     true,
               // TODO: child elements
             }
           }
@@ -251,9 +251,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "selinux": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList,
+              Description:  "",
+              Optional:     true,
               // TODO: child elements
             }
           }
@@ -262,9 +262,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "supplemental_groups": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList,
+              Description:  "",
+              Optional:     true,
               // TODO: child elements
             }
           }
@@ -273,9 +273,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "volumes": {
-              Type:
-              Description:
-              Optional:
+              Type:         schema.TypeList,
+              Description:  "",
+              Optional:     true,
             }
           }
         },
