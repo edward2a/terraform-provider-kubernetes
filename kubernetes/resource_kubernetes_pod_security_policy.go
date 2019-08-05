@@ -619,11 +619,38 @@ func resourceKubernetesPodSecurityPolicyUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceKubernetesPodSecurityPolicyDelete(d *schema.ResourceData, meta interface{}) error {
+  conn := meta.(*kubernetes.Clientset)
+
+  namespace, name, err := idParts(d.Id())
+  if err != nil {
+    return err
+  }
+  log.Printf("[INFO] Deleting pod security policy: %#v", name)
+  err = conn.ExtensionsV1beta1Client().PodSecurityPolicies().Delete(name, &meta_v1.DeleteOptions{})
+  if err != nil {
+    return err
+  }
+
+  log.Printf("[INFO] Pod security policy %s deleted", name)
 
   return nil
 }
 
 func resourceKubernetesPodSecurityPolicyExists(d *schema.ResourceData, meta interface{}) (bool, error) {
+  conn := meta.(*kubernetes.Clientset)
 
+  namespace, name, err := idParts(d.Id())
+  if err != nil {
+    return false, err
+  }
+
+  log.Printf("[INFO] Checking pod security policy %s", name)
+  _, err = conn.ExtensionsV1beta1Client().PodSecurityPolicies().Get(name, meta_v1.GetOptions{})
+  if err != nil {
+    if statusErr, ok := err.(*errors.StatusError); ok && statusErr.ErrStatus.Code == 404 {
+      return false, nil
+    }
+    log.Printf("[DEBUG] Received error: %#v", err)
+  }
   return true, err
 }
