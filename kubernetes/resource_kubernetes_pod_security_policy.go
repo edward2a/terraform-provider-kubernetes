@@ -531,7 +531,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         },
       },
     },
-  },
+  }
 }
 
 func resourceKubernetesPodSecurtyPolicyCreate(d *schema.ResourceData, meta interface{}) error {
