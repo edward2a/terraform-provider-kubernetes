@@ -54,12 +54,12 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "allow_privilege_escalation": {
-              Type:         schema.TypeString
+              Type:         schema.TypeString,
               Description:  "",
               Optional:     true,
               Default:      false,    // API defaults to true
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -68,8 +68,8 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeList,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -90,20 +90,20 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           Type:         schema.TypeString,
                           Description:  "",
                           Optional:     true,
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
 
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "allowed_host_paths": {
-              Type:         schema.TypeList
+              Type:         schema.TypeList,
               Description:  allowedHostPathDoc,
               Optional:     true,
               Elem: &schema.Resource{
@@ -123,24 +123,24 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           Type:         schema.TypeString,
                           Description:  "",
                           Optional:     true,
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
 
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "allowed_proc_mount_types": {
-              Type:         schema.TypeList
+              Type:         schema.TypeList,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -149,8 +149,8 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeList,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -158,9 +158,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
             "default_add_capabilities": {
               Type:         schema.TypeList,
               Description:  "",
-              Optional:     true
-            }
-          }
+              Optional:     true,
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -169,8 +169,8 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeString,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -179,14 +179,14 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeList,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "fs_group": {
-              Type:         schema.TypeList
+              Type:         schema.TypeList,
               Description:  fsGroupStrategyOptionsDoc,
               Optional:     true,
               Elem: &schema.Resource{
@@ -213,21 +213,21 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                               Type:         schema.TypeString,
                               Description:  "",
                               Optional:     true,
-                            }
-                          }
+                            },
+                          },
                         },
                         "rule": {
                           Type:         schema.TypeString,
                           Description:  "",
                           Optional:     true,
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -236,8 +236,8 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeString,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -246,8 +246,8 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeString,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -256,14 +256,14 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TyprString,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "host_ports": {
-              Type:         schema.TypeList
+              Type:         schema.TypeList,
               Description:  hostPortRangeDoc,
               Optional:     true,
               Elem: &schema.Resource{
@@ -283,14 +283,14 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           Type:         schema.TypeString,
                           Description:  "",
                           Optional:     true,
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -299,8 +299,8 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeString,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -309,8 +309,8 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeString,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -319,14 +319,14 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeList,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
 
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "run_as_group": {
-              Type:         schema.TypeList
+              Type:         schema.TypeList,
               Description:  runAsGroupStrategyOptionsDoc,
               Optional:     true,
               Elem: &schema.Resource{
@@ -353,27 +353,27 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                               Type:         schema.TypeString,
                               Description:  "",
                               Optional:     true,
-                            }
-                          }
+                            },
+                          },
                         },
                         "rule": {
                           Type:         schema.TypeString,
                           Description:  "",
                           Optional:     true,
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
 
         Elem: &schema.Resource{
           Schema: map[string]*schema.Schema{
             "run_as_user": {
-              Type:         schema.TypeList
+              Type:         schema.TypeList,
               Description:  runAsUserStrategyOptionsDoc,
               Optional:     true,
               Elem: &schema.Resource{
@@ -400,21 +400,21 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                               Type:         schema.TypeString,
                               Description:  "",
                               Optional:     true,
-                            }
-                          }
+                            },
+                          },
                         },
                         "rule": {
                           Type:         schema.TypeString,
                           Description:  "",
                           Optional:     true,
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -461,17 +461,16 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                               Type:         schema.TypeString,
                               Description:  "",
                               Optional:     true,
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-              // TODO: child elements
-            }
-          }
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -504,21 +503,21 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                               Type:         schema.TypeString,
                               Description:  "",
                               Optional:     true,
-                            }
-                          }
+                            },
+                          },
                         },
                         "rule": {
                           Type:         schema.TypeString,
                           Description:  "",
                           Optional:     true,
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
 
         Elem: &schema.Resource{
@@ -527,11 +526,10 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeList,
               Description:  "",
               Optional:     true,
-            }
-          }
+            },
+          },
         },
-
-      }
-    }
-  }
+      },
+    },
+  },
 }
