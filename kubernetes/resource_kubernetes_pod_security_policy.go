@@ -539,7 +539,7 @@ func resourceKubernetesPodSecurtyPolicyCreate(d *schema.ResourceData, meta inter
   return resourceKubernetesPodSecurityPolicyRead(d, meta)
 }
 
-func resourceKubernetesPodSecurityPolicyRead(d *schema.ResourceData, meta intrface{}) error {
+func resourceKubernetesPodSecurityPolicyRead(d *schema.ResourceData, meta interface{}) error {
 
   return nil
 }
