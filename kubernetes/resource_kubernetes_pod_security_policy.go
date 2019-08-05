@@ -104,9 +104,31 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
           Schema: map[string]*schema.Schema{
             "allowed_host_paths": {
               Type:         schema.TypeList
-              Description:  "",
+              Description:  allowedHostPathDoc,
               Optional:     true,
-              // TODO: child elements
+              Elem: &schema.Resource{
+                Schema: map[string]*schema.Schema{
+                  "paths": {
+                    Type:         schema.TypeList,
+                    Description:  "",
+                    Optional:     true,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "path_prefix": {
+                          Type:         schema.TypeString,
+                          Description:  "",
+                          Optional:     true,
+                        },
+                        "read_only": {
+                          Type:         schema.TypeString,
+                          Description:  "",
+                          Optional:     true,
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         },
