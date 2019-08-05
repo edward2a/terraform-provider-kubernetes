@@ -76,9 +76,26 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
           Schema: map[string]*schema.Schema{
             "allowed_flex_volumes": {
               Type:         schema.TypeList,
-              Description:  "",
+              Description:  allowedFlexVolumeDoc,
               Optional:     true,
-              // TODO: child elements
+              Elem: &schema.Resource{
+                Schema: map[string]*schema.Schema{
+                  "drivers": {
+                    Type:         schema.TypeList,
+                    Description:  "",
+                    Optional:     true,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "driver": {
+                          Type:         schema.TypeString,
+                          Description:  "",
+                          Optional:     true,
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         },
