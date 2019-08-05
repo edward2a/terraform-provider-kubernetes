@@ -187,9 +187,45 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
           Schema: map[string]*schema.Schema{
             "fs_group": {
               Type:         schema.TypeList
-              Description:  "",
+              Description:  fsGroupStrategyOptionsDoc,
               Optional:     true,
-              // TODO: child elements
+              Elem: &schema.Resource{
+                Schema: map[string]*schema.Schema{
+                  "rules": {
+                    Type:         schema.TypeList,
+                    Description:  "",
+                    Optional:     true,
+                    MaxItems:     1,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "id_ranges": {
+                          Type:         schema.TypeList,
+                          Description:  "",
+                          Optional:     true,
+                          MaxItems:     1,
+                          Elem: &schema.Resource{
+                            "max": {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            },
+                            "min": {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            }
+                          }
+                        },
+                        "rule": {
+                          Type:         schema.TypeString,
+                          Description:  "",
+                          Optional:     true,
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         },
