@@ -533,3 +533,28 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
     },
   },
 }
+
+func resourceKubernetesPodSecurtyPolicyCreate(d *schema.ResourceData, meta interface{}) error {
+
+  return resourceKubernetesPodSecurityPolicyRead(d, meta)
+}
+
+func resourceKubernetesPodSecurityPolicyRead(d *schema.ResourceData, meta intrface{}) error {
+
+  return nil
+}
+
+func resourceKubernetesPodSecurityPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
+
+  return resourceKubernetesPodSecurityPolicyRead(d, meta)
+}
+
+func resourceKubernetesPodSecurityPolicyDelete(d *schema.ResourceData, meta interface{}) error {
+
+  return nil
+}
+
+func resourceKubernetesPodSecurityPolicyExists(d *schema.ResourceData, meta interface{}) (bool, error) {
+
+  return true, err
+}
