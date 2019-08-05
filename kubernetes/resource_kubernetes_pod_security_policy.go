@@ -589,6 +589,31 @@ func resourceKubernetesPodSecurityPolicyRead(d *schema.ResourceData, meta interf
 }
 
 func resourceKubernetesPodSecurityPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
+  conn := meta.(*kubernetes.Clientset)
+
+  namespace, name, err := idParts(d.Id())
+  if err != nil {
+    return err
+  }
+
+  ops := patchMeta("metadata.0.", "/metadata/", d)
+  if d.HasChange("spec") {
+    diffOps, err := patchPodSecurityPolicySpec("spec.0", "/spec", d)
+    if err != nil {
+      return err
+    }
+  }
+  data, err := ops.MarshalJSON()
+  if err != nil {
+    return fmt.Errorf("Failed to marshal update operations: %s", err)
+  }
+  log.Printf("[INFO] Updating network policy %q: %v", name, string(data))
+  out, err := conn.ExtensionsV1beta1Client().PodSecurityPolicies().Patch(name, pkgApi.JSONPatchType, data)
+  if err != nil {
+    return fmt.Errorf("Failed to update pod security policy: %s",  err)
+  }
+  log.Printf("[INFO] Submitted updated pod security policy: %#v", out)
+  d.SetId(buildId(out.ObjectMeta))
 
   return resourceKubernetesPodSecurityPolicyRead(d, meta)
 }
