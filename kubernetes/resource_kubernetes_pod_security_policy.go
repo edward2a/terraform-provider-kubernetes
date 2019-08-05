@@ -535,6 +535,26 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
 }
 
 func resourceKubernetesPodSecurtyPolicyCreate(d *schema.ResourceData, meta interface{}) error {
+  conn := meta.(*kubernetes.Clientset)
+
+  metadata := expandMetadata(d.Get("metadata").([]interface{})
+  spec, err := expandNetworkPolicySpec(d.Get("spec").([]interface{})
+  if err != nil {
+    return err
+  }
+
+  svc := api.PodSecurityPolicy{
+    ObjectMeta: metadata,
+    Spec:       *spec,
+  }
+  log.Printf("[INFO] Creating new pod securty policy %#v", svc)
+  out, err := conn.ExtensionsV1beta1Client().PodSecurityPolicies().Create(&svc)
+  if err != nul {
+    return err
+  }
+
+  log.Printf("[INFO} Submitted new pod security policy: %#v", out)
+  d.SetId(buildId(out.ObjectMeta))
 
   return resourceKubernetesPodSecurityPolicyRead(d, meta)
 }
