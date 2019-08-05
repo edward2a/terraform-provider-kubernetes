@@ -264,9 +264,31 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
           Schema: map[string]*schema.Schema{
             "host_ports": {
               Type:         schema.TypeList
-              Description:  "",
+              Description:  hostPortRangeDoc,
               Optional:     true,
-              // TODO: child elements
+              Elem: &schema.Resource{
+                Schema: map[string]*schempa.Schema{
+                  "ranges": {
+                    Type:         schema.TypeList,
+                    Description:  "",
+                    Optional:     true,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "max": {
+                          Type:         schema.TypeString,
+                          Description:  "",
+                          Optional:     true,
+                        },
+                        "min": {
+                          Type:         schema.TypeString,
+                          Description:  "",
+                          Optional:     true,
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         },
