@@ -537,8 +537,8 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
 func resourceKubernetesPodSecurtyPolicyCreate(d *schema.ResourceData, meta interface{}) error {
   conn := meta.(*kubernetes.Clientset)
 
-  metadata := expandMetadata(d.Get("metadata").([]interface{})
-  spec, err := expandNetworkPolicySpec(d.Get("spec").([]interface{})
+  metadata := expandMetadata(d.Get("metadata")).([]interface{})
+  spec, err := expandNetworkPolicySpec(d.Get("spec")).([]interface{})
   if err != nil {
     return err
   }
@@ -547,7 +547,7 @@ func resourceKubernetesPodSecurtyPolicyCreate(d *schema.ResourceData, meta inter
     ObjectMeta: metadata,
     Spec:       *spec,
   }
-  log.Printf("[INFO] Creating new pod securty policy %#v", svc)
+  log.Printf("[INFO] Creating new pod security policy %#v", svc)
   out, err := conn.ExtensionsV1beta1Client().PodSecurityPolicies().Create(&svc)
   if err != nul {
     return err
@@ -560,6 +560,30 @@ func resourceKubernetesPodSecurtyPolicyCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceKubernetesPodSecurityPolicyRead(d *schema.ResourceData, meta interface{}) error {
+  conn := meta.(*kubernetes.Clientset)
+
+  namespace, name, err := idParts(d.Id())
+  if err != nil {
+    return err
+  }
+  log.Printf("[INFO] Reading pod security policy %s", name)
+  svc, err := conn.ExtensionsV1beta1Client().PodSecurityPolicies().Get(name, meta_v1.GetOptions{})
+  if err != nil {
+    log.Printf("[DEBUG] Received error :%#v", err)
+    return err
+  }
+  log.Printf("[DEBUG] Received pod security policy: %#v", svc)
+  err = d.Set("metadata", flattenMetadata(svc.ObjectMeta, d))
+  if err != nil {
+    return err
+  }
+
+  flattened := flattenPodSecurityPolicySpec(svc.Spec)
+  log.Printf("[DEBUG] Flattened pod security policy spec: %#v", flattened)
+  err = d.Set("spec", flattened)
+  if err != nil {
+    return err
+  }
 
   return nil
 }
