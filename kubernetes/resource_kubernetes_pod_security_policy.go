@@ -327,9 +327,45 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
           Schema: map[string]*schema.Schema{
             "run_as_group": {
               Type:         schema.TypeList
-              Description:  "",
+              Description:  runAsGroupStrategyOptionsDoc,
               Optional:     true,
-              // TODO: child elements
+              Elem: &schema.Resource{
+                Schema: map[string]*schema.Schema{
+                  "rules": {
+                    Type:         schema.TypeList,
+                    Description:  "",
+                    Optional:     true,
+                    MaxItems:     1,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "id_ranges": {
+                          Type:         schema.TypeList,
+                          Description:  "",
+                          Optional:     true,
+                          MaxItems:     1,
+                          Elem: &schema.Resource{
+                            "max": {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            },
+                            "min": {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            }
+                          }
+                        },
+                        "rule": {
+                          Type:         schema.TypeString,
+                          Description:  "",
+                          Optional:     true,
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         },
@@ -338,9 +374,45 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
           Schema: map[string]*schema.Schema{
             "run_as_user": {
               Type:         schema.TypeList
-              Description:  "",
+              Description:  runAsUserStrategyOptionsDoc,
               Optional:     true,
-              // TODO: child elements
+              Elem: &schema.Resource{
+                Schema: map[string]*schema.Schema{
+                  "rules": {
+                    Type:         schema.TypeList,
+                    Description:  "",
+                    Optional:     true,
+                    MaxItems:     1,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "id_ranges": {
+                          Type:         schema.TypeList,
+                          Description:  "",
+                          Optional:     true,
+                          MaxItems:     1,
+                          Elem: &schema.Resource{
+                            "max": {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            },
+                            "min": {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            }
+                          }
+                        },
+                        "rule": {
+                          Type:         schema.TypeString,
+                          Description:  "",
+                          Optional:     true,
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         },
@@ -349,8 +421,54 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
           Schema: map[string]*schema.Schema{
             "selinux": {
               Type:         schema.TypeList,
-              Description:  "",
+              Description:  seLinuxStrategyOptionsDoc,
               Optional:     true,
+              Elem: &schema.Resource{
+                Schema: map[string]*schema.Schema{
+                  "rules": {
+                    Type:         schema.TypeList,
+                    Description:  "",
+                    Optional:     true,
+                    MaxItems:     1,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "rule": {
+                          Type:         schema.TypeString,
+                          Description:  "",
+                          Optional:     true,
+                        },
+                        "selinux_options": {
+                          Type:         schema.TypeList,
+                          Description:  "",
+                          Optional:     true,
+                          Elem: &schema.Schema{
+                            "level":  {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            },
+                            "role": {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            },
+                            "type": {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            },
+                            "user": {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
               // TODO: child elements
             }
           }
@@ -360,9 +478,45 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
           Schema: map[string]*schema.Schema{
             "supplemental_groups": {
               Type:         schema.TypeList,
-              Description:  "",
+              Description:  supplementalGroupsStrategyOptionsDoc,
               Optional:     true,
-              // TODO: child elements
+              Elem: &schema.Resource{
+                Schema: map[string]*schema.Schema{
+                  "rules": {
+                    Type:         schema.TypeList,
+                    Description:  "",
+                    Optional:     true,
+                    MaxItems:     1,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "id_ranges": {
+                          Type:         schema.TypeList,
+                          Description:  "",
+                          Optional:     true,
+                          MaxItems:     1,
+                          Elem: &schema.Resource{
+                            "max": {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            },
+                            "min": {
+                              Type:         schema.TypeString,
+                              Description:  "",
+                              Optional:     true,
+                            }
+                          }
+                        },
+                        "rule": {
+                          Type:         schema.TypeString,
+                          Description:  "",
+                          Optional:     true,
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         },
