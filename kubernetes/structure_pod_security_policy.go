@@ -32,6 +32,38 @@ func flattenPodSecurityPolicySpec(in v1beta.PodSecurityPolicySpec, d *schema.Res
 	att["volumes"] = in.Volumes
 }
 
+func flattenAllowedFlexVolume(in v1beta.AllowedFlexVolume, d *schema.ResourceData) ([]interface{}, error) {
+  att := make([]interface{}, len(in), len(in))
+}
+
+func flattenHostPath(in v1beta.AllowedHostPath, d *schema.ResourceData) ([]interface{}, error) {
+  att := make([]interface{}, len(in), len(in))
+}
+
+func flattenFSGroup(in v1beta.FSGroupStrategyOptions, d *schema.ResourceData) ([]interface{}, error) {
+  att := make([]interface{}, len(in), len(in))
+}
+
+func flattenHostPortRange(in v1beta.HostPortRange, d *schema.ResourceData) ([]interface{}, error) {
+  att := make([]interface{}, len(in), len(in))
+}
+
+func flattenRunAsGroup(in v1beta.RunAsGroupStrategyOptions, d *schema.ResourceData) ([]interface{}, error) {
+  att := make([]interface{}, len(in), len(in))
+}
+
+func flattenRunAsUser(in v1beta.RunAsUserStrategyOptions, d *schema.ResourceData) ([]interface{}, error) {
+  att := make([]interface{}, len(in), len(in))
+}
+
+func flattenSELinux(in v1beta.SELinuxStrategyOptions, d *schema.ResourceData) ([]interface{}, error) {
+  att := make([]interface{}, len(in), len(in))
+}
+
+func flattenSupplementalGroups(in v1beta.SupplementalGroupsStrategyOptions, d *schema.ResourceData) ([]interface{}, error) {
+  att := make([]interface{}, len(in), len(in))
+}
+
 // Expanders
 
 func expandPodSecurityPolicy(in []interface{}) (*v1beta.PodSecurityPolicySpec, error) {
