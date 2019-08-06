@@ -1,140 +1,208 @@
 package kubernetes
 
 import (
-	"fmt"
-	"strconv"
+  "fmt"
+  "strconv"
 
-	"github.com/hashicorp/terraform/helper/schema"
-	api "k8s.io/api/core/v1"
-	"k8s.io/api/policy/v1beta"
-	"k8s.io/apimachinery/pkg/util/intstr"
+  "github.com/hashicorp/terraform/helper/schema"
+  api "k8s.io/api/core/v1"
+  "k8s.io/api/policy/v1beta"
+  "k8s.io/apimachinery/pkg/util/intstr"
 )
 
 // Flatteners
 
 func flattenPodSecurityPolicySpec(in v1beta.PodSecurityPolicySpec, d *schema.ResourceData) ([]interface{}, error) {
-	att := make(map[string]interface{})
+  att := make(map[string]interface{})
 
-	att["allow_privilege_escalation"] = in.AllowPrivilegeEscalation
+  if in.AllowPrivilegeEscalation != nil {
+    att["allow_privilege_escalation"] = in.AllowPrivilegeEscalation // bool
+  }
 
-	att["allowed_capabilities"] = in.AllowedCapabilities
+  if in.AllowedCapabilities != nil && len(in.AllowedCapabilities) > 0 {
+    att["allowed_capabilities"] = newStringSet(schema.HashString, in.AllowedCapabilities) // string array
+  }
 
-	att["fs_group"] = in.FSGroup
+  if in.AllowedFlexVolumes != nil && len(in.AllowedFlexVolumes) > 0 {
+    att["allowed_flex_volumes"] = flattenAllowedFlexVolumes(in.AllowedFlexVolumes) // map array
+  }
 
-	att["privileted"] = in.Privileged
+  if in.AllowedHostPaths != nil  && len(in.AllowedHostPaths) > 0 {
+    att["allowed_host_paths"] = flattenAllowedHostPaths(in.AllowedHostPaths) // map array
+  }
 
-	att["run_as_user"] = in.RunAsUser
+  if in.AllowedUnsafeSysctls != nil && len(in.AllowedUnsafeSysctls) > 0 {
+    att["allowed_unsafe_sysctls"] = newStringSet(schema.HashString, in.AllowedCapabilities) // string array
+  }
 
-	att["selinux"] = in.SELinux
+  if in.DefaultAddCapabilities != nil && len(in.DefaultAddCapabilities) > 0 {
+    att["default_add_capabilities"] = newStringSet(schema.HashString, in.DefaultAddCapabilities) // string array
+  }
 
-	att["supplemental_groups"] = in.SupplementalGroups
+  if in.DefaultAllowPrivilegeEscalation != nil {
+    att["default_allow_privilege_escalation"] = in.DefaultAllowPrivilegeEscalation // bool
+  }
 
-	att["volumes"] = in.Volumes
+  if in.ForbiddenSysctls != nil && len(in.ForbiddenSysctls) > 0 {
+    att["forbidden_sysctls"] = newStringSet(schema.HashString, in.ForbiddenSysctls) // string array
+  }
+
+  if in.FSGroup != nil && len(in.FSGroup) > 0 {
+    att["fs_group"] = flattenFSGroup(in.FSGroup) // map array
+  }
+
+  if in.HostIPC != nil {
+    att["host_ipc"] = in.HostIPC // bool
+  }
+
+  if in.HostNetwork != nil {
+    att["host_network"] = in.HostNetwork // bool
+  }
+
+  if in.HostPID != nil {
+    att["host_pid"] = in.HostPID // bool
+  }
+
+  if in.HostPorts != nil && len(in.HostPorts) > 0 {
+    att["host_ports"] = flattenHostPorts(in.HostPorts) // map array
+  }
+
+  if in.Privileged != nil {
+    att["privileged"] = in.Privileged // bool
+  }
+
+  if in.ReadOnlyRootFilesystem != nil {
+    att["readonly_root_filesystem"] = in.ReadOnlyRootFilesystem //bool
+  }
+
+  if in.RequiredDropCapabilities != nil && len(in.RequiredDropCapabilities) > 0 {
+    att["required_drop_capabilities"] = in.RequiredDropCapabilities // string array
+  }
+
+  if in.RunAsGroup != nil && len(in.RunAsGroup) > 0 {
+    att["run_as_group"] = flattenRunAsGroup(in.RunAsGroup) // map array
+  }
+
+  if in.RunAsUser != nil && len(in.RunAsUser) > 0 {
+    att["run_as_user"] = flattenRunAsUser(in.RunAsUser) // map array
+  }
+
+  if in.SELinux != nil && len(in.SELinux) > 0 {
+    att["selinux"] = flattenSELinux(in.SELinux) // map array
+  }
+
+  if in.SupplementalGroups != nil && len(in.SupplementalGroups) > 0 {
+    att["supplemental_groups"] = flattenSupplementalGroups(in.SupplementalGroups) // map array
+  }
+
+  if in.Volumes != nil && len(in.Volumes) > 0 {
+    att["volumes"] = in.Volumes // string array
+  }
 }
 
-func flattenAllowedFlexVolume(in v1beta.AllowedFlexVolume, d *schema.ResourceData) ([]interface{}, error) {
+func flattenAllowedFlexVolumes(in v1beta.AllowedFlexVolume) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
-func flattenHostPath(in v1beta.AllowedHostPath, d *schema.ResourceData) ([]interface{}, error) {
+func flattenAllowedHostPaths(in v1beta.AllowedHostPath,) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
-func flattenFSGroup(in v1beta.FSGroupStrategyOptions, d *schema.ResourceData) ([]interface{}, error) {
+func flattenFSGroup(in v1beta.FSGroupStrategyOptions) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
-func flattenHostPortRange(in v1beta.HostPortRange, d *schema.ResourceData) ([]interface{}, error) {
+func flattenHostPorts(in v1beta.HostPortRange) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
-func flattenRunAsGroup(in v1beta.RunAsGroupStrategyOptions, d *schema.ResourceData) ([]interface{}, error) {
+func flattenRunAsGroup(in v1beta.RunAsGroupStrategyOptions) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
-func flattenRunAsUser(in v1beta.RunAsUserStrategyOptions, d *schema.ResourceData) ([]interface{}, error) {
+func flattenRunAsUser(in v1beta.RunAsUserStrategyOptions) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
-func flattenSELinux(in v1beta.SELinuxStrategyOptions, d *schema.ResourceData) ([]interface{}, error) {
+func flattenSELinux(in v1beta.SELinuxStrategyOptions) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
-func flattenSupplementalGroups(in v1beta.SupplementalGroupsStrategyOptions, d *schema.ResourceData) ([]interface{}, error) {
+func flattenSupplementalGroups(in v1beta.SupplementalGroupsStrategyOptions) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
 // Expanders
 
 func expandPodSecurityPolicy(in []interface{}) (*v1beta.PodSecurityPolicySpec, error) {
-	spec := v1beta.PodSecurityPolicySpec{}
+  spec := v1beta.PodSecurityPolicySpec{}
 
-	if len(in) == 0 || in[0] == nil {
-		return nil, fmt.Error("failed to expand PodSecurityPolicy.Spec: null or empty input")
-	}
+  if len(in) == 0 || in[0] == nil {
+    return nil, fmt.Error("failed to expand PodSecurityPolicy.Spec: null or empty input")
+  }
 
-	p := in[0].(map[string]interface{})
+  p := in[0].(map[string]interface{})
 
   // Verify there is something to expand
-	if v, ok := p["allow_privilege_escalation"].(bool); ok && v != nil {
-		spec.AllowPrivilegeEscalation = v
-	}
+  if v, ok := p["allow_privilege_escalation"].(bool); ok && v != nil {
+    spec.AllowPrivilegeEscalation = v
+  }
 
-	// TODO: type assertion
-	if v, ok := p["allowed_capabilities"].(); ok && len(v) > 0 {
-		spec.AllowedCapabilities = v
-	}
+  // TODO: type assertion
+  if v, ok := p["allowed_capabilities"].(); ok && len(v) > 0 {
+    spec.AllowedCapabilities = v
+  }
 
-	if v, ok := p["fs_group"].(string); ok && v != "" {
-		spec.FSGroup = v
-	}
+  if v, ok := p["fs_group"].(string); ok && v != "" {
+    spec.FSGroup = v
+  }
 
-	if v, ok := p["privileged"].(bool); ok && v != nil {
-		spec.Privileged = v
-	}
+  if v, ok := p["privileged"].(bool); ok && v != nil {
+    spec.Privileged = v
+  }
 
-	if v, ok := p["run_as_user"].([]interface{}); ok && *v != nil {
-		spec.RunAsUser = expandRunAsUser(v)
-	}
+  if v, ok := p["run_as_user"].([]interface{}); ok && *v != nil {
+    spec.RunAsUser = expandRunAsUser(v)
+  }
 
-	if v, ok := p["selinux"].([]interface{}); ok && v != nil {
-		spec.SELinux = expandSELinux(v)
-	}
+  if v, ok := p["selinux"].([]interface{}); ok && v != nil {
+    spec.SELinux = expandSELinux(v)
+  }
 
-	if v, ok := p["supplemental_groups"].([]interface{}); ok && v != nil {
-		spec.SupplementalGroups = expandSupplementalGroups(v)
-	}
+  if v, ok := p["supplemental_groups"].([]interface{}); ok && v != nil {
+    spec.SupplementalGroups = expandSupplementalGroups(v)
+  }
 
-	// TODO: type assertion
-	if v, ok := p["volumes"].(); ok && v != nil {
-		spec.Volumes = v
-	}
+  // TODO: type assertion
+  if v, ok := p["volumes"].(); ok && v != nil {
+    spec.Volumes = v
+  }
 
-	return &spec, nil
+  return &spec, nil
 }
 
 func expandRunAsUser(in []interface{}) *v1beta.RunAsUserStrategyOptions {
-	spec := v1beta.RunAsUserStrategyOptions{}
+  spec := v1beta.RunAsUserStrategyOptions{}
 
-	//TODO
+  //TODO
 
-	return &spec, nil
+  return &spec, nil
 }
 
 func expandSELinux(in []interface{}) *v1beta.SELinuxStrategyOptions {
-	spec := v1beta.SELinuxStrategyOptions{}
+  spec := v1beta.SELinuxStrategyOptions{}
 
-	// TODO
+  // TODO
 
-	return &spec, nil
+  return &spec, nil
 }
 
 func expandSuplementalGroups(in []interface{}) *v1beta.SupplementalGroupsStrategyOptions {
-	spec := v1beta.SupplementalGroupsStrategyOptions{}
+  spec := v1beta.SupplementalGroupsStrategyOptions{}
 
-	// TODO
+  // TODO
 
-	return &spec, nil
+  return &spec, nil
 }
 
 // Patchers
