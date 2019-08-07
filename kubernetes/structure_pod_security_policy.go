@@ -5,7 +5,7 @@ import (
   "strconv"
 
   "github.com/hashicorp/terraform/helper/schema"
-  api "k8s.io/api/core/v1"
+  "k8s.io/api/core/v1"
   "k8s.io/api/policy/v1beta"
   "k8s.io/apimachinery/pkg/util/intstr"
 )
@@ -227,39 +227,72 @@ func expandFSGroup(in []interface{}) v1beta.FSGroupStrategyOptions {
 func expandHostPorts(in []interface{}) []v1beta.HostPortRange {
   obj := make([]v1beta.HostPortRange{}, len(in), len(in))
 
+  for i, hpr := range in {
+    if max, min := hpr[i]["max"].(int); hpr[i]["min"].(int) {
+      obj[i] = HostPortRange{
+        Max:        max,
+        Min:        min,
+      }
+  }
+
   return obj
 }
 
 
 func expandRunAsGroup(in []interface{}) v1beta.RunAsGroupStrategyOptions {
-  obj := v1beta.RunAsGroupStrategyOptions{}
+  obj := v1beta.RunAsGroupStrategyOptions{
+    Rule:       string(in["rule"]),
+    Ranges:     expandIDRanges(in["ranges"]),
+  }
 
   return obj
 }
 
 
 func expandRunAsUser(in []interface{}) v1beta.RunAsUserStrategyOptions {
-  obj := v1beta.RunAsUserStrategyOptions{}
-
-  //TODO
+  obj := v1beta.RunAsUserStrategyOptions{
+    Rule:       string(in["rule"]),
+    Ranges:     expandIDRanges(in["ranges"]),
+  }
 
   return obj
 }
 
 
 func expandSELinux(in []interface{}) v1beta.SELinuxStrategyOptions {
-  obj := v1beta.SELinuxStrategyOptions{}
+  obj := v1beta.SELinuxStrategyOptions{
+    Rule:           string(in["rule"]),
+  }
 
-  // TODO
+  if slo, ok := in["selinux_options"]; ok {
+    obj.SELinuxOptions = v1.SELinuxOptions{}
+
+    if v, ok := slo["level"].(string); ok {
+      obj.SELinuxOptions.Level = v
+    }
+
+    if v, ok := slo["role"].(string); ok {
+      obj.SELinuxOptions.Role = v
+    }
+
+    if v, ok := slo["type"].(string); ok {
+      obj.SELinuxOptions.Type = v
+    }
+
+    if v, ok := slo["user"].(string); ok {
+      obj.SELinuxOptions.User = v
+    }
+  }
 
   return obj
 }
 
 
 func expandSuplementalGroups(in []interface{}) v1beta.SupplementalGroupsStrategyOptions {
-  obj := v1beta.SupplementalGroupsStrategyOptions{}
-
-  // TODO
+  obj := v1beta.SupplementalGroupsStrategyOptions{
+    Rule:       string(in["rule"]),
+    Ranges      expandIDRanges(in["ranges"]),
+  }
 
   return obj
 }
