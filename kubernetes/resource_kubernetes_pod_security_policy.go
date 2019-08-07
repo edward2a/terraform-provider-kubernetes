@@ -5,31 +5,32 @@ import (
   "log"
 
   "github.com/hashicorp/terraform/helper/schema"
-  api "k8s.io/api/policy/v1beta1"
+  ext_v1beta1 "k8s.io/api/extensions/v1beta1"
+  policy_v1beta1 "k8s.io/api/policy/v1beta1"
   "k8s.io/apimachinery/pkg/api/errors"
-  meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1beta1"
+  meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
   pkgApi "k8s.io/apimachinery/pkg/types"
   "k8s.io/client-go/kubernetes"
 )
 
 var (
-  allowedFlexVolumeDoc                  = api.AllowedFlexVolume{}.SwaggerDoc()
-  allowedHostPathDoc                    = api.AllowedHostPath{}.SwaggerDoc()
-  evictionDoc                           = api.Eviction{}.SwaggerDoc()
-  fsGroupStrategyOptionsDoc             = api.FSGroupStrategyOptions{}.SwaggerDoc()
-  hostPortRangeDoc                      = api.HostPortRange{}.SwaggerDoc()
-  idRangeDoc                            = api.IDRange{}.SwaggerDoc()
-  podDisruptionBudgetDoc                = api.PodDisruptionBudget{}.SwaggerDoc()
-  podDisruptionBudgetListDoc            = api.PodDisruptionBudgetList{}.SwaggerDoc()
-  podDisruptionBudgetSpecDoc            = api.PodDisruptionBudgetSpec{}.SwaggerDoc()
-  podDisruptionBudgetStatusDoc          = api.PodDisruptionBudgetStatus{}.SwaggerDoc()
-  podSecurityPolicyDoc                  = api.PodSecurityPolicy{}.SwaggerDoc()
-  podSecurityPolicyListDoc              = api.PodSecurityPolicyList{}.SwaggerDoc()
-  podSecurityPolicySpecDoc              = api.PodSecurityPolicySpec{}.SwaggerDoc()
-  runAsGroupStrategyOptionsDoc          = api.RunAsGroupStrategyOptions{}.SwaggerDoc()
-  runAsUserStrategyOptionsDoc           = api.RunAsUserStrategyOptions{}.SwaggerDoc()
-  seLinuxStrategyOptionsDoc             = api.SELinuxStrategyOptions{}.SwaggerDoc()
-  supplementalGroupsStrategyOptionsDoc  = api.SupplementalGroupsStrategyOptions{}.SwaggerDoc()
+  allowedFlexVolumeDoc                  = policy_v1beta1.AllowedFlexVolume{}.SwaggerDoc()
+  allowedHostPathDoc                    = policy_v1beta1.AllowedHostPath{}.SwaggerDoc()
+  evictionDoc                           = policy_v1beta1.Eviction{}.SwaggerDoc()
+  fsGroupStrategyOptionsDoc             = policy_v1beta1.FSGroupStrategyOptions{}.SwaggerDoc()
+  hostPortRangeDoc                      = policy_v1beta1.HostPortRange{}.SwaggerDoc()
+  idRangeDoc                            = policy_v1beta1.IDRange{}.SwaggerDoc()
+  podDisruptionBudgetDoc                = policy_v1beta1.PodDisruptionBudget{}.SwaggerDoc()
+  podDisruptionBudgetListDoc            = policy_v1beta1.PodDisruptionBudgetList{}.SwaggerDoc()
+  podDisruptionBudgetSpecDoc            = policy_v1beta1.PodDisruptionBudgetSpec{}.SwaggerDoc()
+  podDisruptionBudgetStatusDoc          = policy_v1beta1.PodDisruptionBudgetStatus{}.SwaggerDoc()
+  podSecurityPolicyDoc                  = policy_v1beta1.PodSecurityPolicy{}.SwaggerDoc()
+  podSecurityPolicyListDoc              = policy_v1beta1.PodSecurityPolicyList{}.SwaggerDoc()
+  podSecurityPolicySpecDoc              = policy_v1beta1.PodSecurityPolicySpec{}.SwaggerDoc()
+  runAsGroupStrategyOptionsDoc          = policy_v1beta1.RunAsGroupStrategyOptions{}.SwaggerDoc()
+  runAsUserStrategyOptionsDoc           = policy_v1beta1.RunAsUserStrategyOptions{}.SwaggerDoc()
+  seLinuxStrategyOptionsDoc             = policy_v1beta1.SELinuxStrategyOptions{}.SwaggerDoc()
+  supplementalGroupsStrategyOptionsDoc  = policy_v1beta1.SupplementalGroupsStrategyOptions{}.SwaggerDoc()
 )
 
 func resourceKubernetesPodSecurityPolicy() *schema.Resource {
@@ -189,16 +190,17 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeList,
               //Description:  fsGroupStrategyOptionsDoc,
               Optional:     true,
+              MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                  "rules": {
-                    Type:         schema.TypeList,
+                //"rules": {
+                //  Type:         schema.TypeList,
                     //Description:  "",
-                    Optional:     true,
-                    MaxItems:     1,
-                    Elem: &schema.Resource{
-                      Schema: map[string]*schema.Schema{
-                        "id_ranges": {
+                //  Optional:     true,
+                //  MaxItems:     1,
+                //  Elem: &schema.Resource{
+                //    Schema: map[string]*schema.Schema{
+                        "ranges": {
                           Type:         schema.TypeList,
                           //Description:  "",
                           Optional:     true,
@@ -223,9 +225,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           //Description:  "",
                           Optional:     true,
                         },
-                      },
-                    },
-                  },
+                //    },
+                //  },
+                //},
                 },
               },
             },
@@ -331,16 +333,17 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeList,
               //Description:  runAsGroupStrategyOptionsDoc,
               Optional:     true,
+              MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                  "rules": {
-                    Type:         schema.TypeList,
+                //"rules": {
+                //  Type:         schema.TypeList,
                     //Description:  "",
-                    Optional:     true,
-                    MaxItems:     1,
-                    Elem: &schema.Resource{
-                      Schema: map[string]*schema.Schema{
-                        "id_ranges": {
+                //  Optional:     true,
+                //  MaxItems:     1,
+                //  Elem: &schema.Resource{
+                //    Schema: map[string]*schema.Schema{
+                        "ranges": {
                           Type:         schema.TypeList,
                           //Description:  "",
                           Optional:     true,
@@ -365,9 +368,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           //Description:  "",
                           Optional:     true,
                         },
-                      },
-                    },
-                  },
+                //    },
+                //  },
+                //},
                 },
               },
             },
@@ -380,16 +383,17 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeList,
               //Description:  runAsUserStrategyOptionsDoc,
               Optional:     true,
+              MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                  "rules": {
-                    Type:         schema.TypeList,
+                //"rules": {
+                //  Type:         schema.TypeList,
                     //Description:  "",
-                    Optional:     true,
-                    MaxItems:     1,
-                    Elem: &schema.Resource{
-                      Schema: map[string]*schema.Schema{
-                        "id_ranges": {
+                //  Optional:     true,
+                //  MaxItems:     1,
+                //  Elem: &schema.Resource{
+                //    Schema: map[string]*schema.Schema{
+                        "ranges": {
                           Type:         schema.TypeList,
                           //Description:  "",
                           Optional:     true,
@@ -414,9 +418,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           //Description:  "",
                           Optional:     true,
                         },
-                      },
-                    },
-                  },
+                //    },
+                //  },
+                //},
                 },
               },
             },
@@ -490,16 +494,17 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Type:         schema.TypeList,
               //Description:  supplementalGroupsStrategyOptionsDoc,
               Optional:     true,
+              MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                  "rules": {
-                    Type:         schema.TypeList,
-                    //Description:  "",
-                    Optional:     true,
-                    MaxItems:     1,
-                    Elem: &schema.Resource{
-                      Schema: map[string]*schema.Schema{
-                        "id_ranges": {
+                //"rules": {
+                //  Type:         schema.TypeList,
+                //  //Description:  "",
+                //  Optional:     true,
+                //  MaxItems:     1,
+                //  Elem: &schema.Resource{
+                //    Schema: map[string]*schema.Schema{
+                        "ranges": {
                           Type:         schema.TypeList,
                           //Description:  "",
                           Optional:     true,
@@ -524,9 +529,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           //Description:  "",
                           Optional:     true,
                         },
-                      },
-                    },
-                  },
+                //    },
+                //  },
+                //},
                 },
               },
             },
@@ -550,23 +555,24 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
 func resourceKubernetesPodSecurityPolicyCreate(d *schema.ResourceData, meta interface{}) error {
   conn := meta.(*kubernetes.Clientset)
 
-  metadata := expandMetadata(d.Get("metadata")).([]interface{})
-  spec, err := expandPodSecurityPolicySpec(d.Get("spec")).([]interface{})
+  //TODO type validation, d.Get("metadata") == interface{} ??
+  metadata := expandMetadata(d.Get("metadata").([]interface{}))
+  spec, err := expandPodSecurityPolicySpec(d.Get("spec").([]interface{}))
   if err != nil {
     return err
   }
 
-  svc := api.PodSecurityPolicy{
+  svc := ext_v1beta1.PodSecurityPolicy{
     ObjectMeta: metadata,
     Spec:       *spec,
   }
   log.Printf("[INFO] Creating new pod security policy %#v", svc)
-  out, err := conn.ExtensionsV1beta1Client().PodSecurityPolicies().Create(&svc)
-  if err != nul {
+  out, err := conn.ExtensionsV1beta1().PodSecurityPolicies().Create(&svc)
+  if err != nil {
     return err
   }
 
-  log.Printf("[INFO} Submitted new pod security policy: %#v", out)
+  log.Printf("[INFO] Submitted new pod security policy: %#v", out)
   d.SetId(buildId(out.ObjectMeta))
 
   return resourceKubernetesPodSecurityPolicyRead(d, meta)
@@ -580,7 +586,7 @@ func resourceKubernetesPodSecurityPolicyRead(d *schema.ResourceData, meta interf
     return err
   }
   log.Printf("[INFO] Reading pod security policy %s", name)
-  svc, err := conn.ExtensionsV1beta1Client().PodSecurityPolicies().Get(name, meta_v1.GetOptions{})
+  svc, err := conn.ExtensionsV1beta1().PodSecurityPolicies().Get(name, meta_v1.GetOptions{})
   if err != nil {
     log.Printf("[DEBUG] Received error :%#v", err)
     return err
@@ -591,7 +597,7 @@ func resourceKubernetesPodSecurityPolicyRead(d *schema.ResourceData, meta interf
     return err
   }
 
-  flattened := flattenPodSecurityPolicySpec(svc.Spec)
+  flattened, err := flattenPodSecurityPolicySpec(svc.Spec)
   log.Printf("[DEBUG] Flattened pod security policy spec: %#v", flattened)
   err = d.Set("spec", flattened)
   if err != nil {
@@ -609,7 +615,7 @@ func resourceKubernetesPodSecurityPolicyUpdate(d *schema.ResourceData, meta inte
     return err
   }
 
-  ops := patchMeta("metadata.0.", "/metadata/", d)
+  ops := patchMetadata("metadata.0.", "/metadata/", d)
   if d.HasChange("spec") {
     diffOps, err := patchPodSecurityPolicySpec("spec.0", "/spec", d)
     if err != nil {
@@ -621,7 +627,7 @@ func resourceKubernetesPodSecurityPolicyUpdate(d *schema.ResourceData, meta inte
     return fmt.Errorf("Failed to marshal update operations: %s", err)
   }
   log.Printf("[INFO] Updating network policy %q: %v", name, string(data))
-  out, err := conn.ExtensionsV1beta1Client().PodSecurityPolicies().Patch(name, pkgApi.JSONPatchType, data)
+  out, err := conn.ExtensionsV1beta1().PodSecurityPolicies().Patch(name, pkgApi.JSONPatchType, data)
   if err != nil {
     return fmt.Errorf("Failed to update pod security policy: %s",  err)
   }
@@ -639,7 +645,7 @@ func resourceKubernetesPodSecurityPolicyDelete(d *schema.ResourceData, meta inte
     return err
   }
   log.Printf("[INFO] Deleting pod security policy: %#v", name)
-  err = conn.ExtensionsV1beta1Client().PodSecurityPolicies().Delete(name, &meta_v1.DeleteOptions{})
+  err = conn.ExtensionsV1beta1().PodSecurityPolicies().Delete(name, &meta_v1.DeleteOptions{})
   if err != nil {
     return err
   }
@@ -658,7 +664,7 @@ func resourceKubernetesPodSecurityPolicyExists(d *schema.ResourceData, meta inte
   }
 
   log.Printf("[INFO] Checking pod security policy %s", name)
-  _, err = conn.ExtensionsV1beta1Client().PodSecurityPolicies().Get(name, meta_v1.GetOptions{})
+  _, err = conn.ExtensionsV1beta1().PodSecurityPolicies().Get(name, meta_v1.GetOptions{})
   if err != nil {
     if statusErr, ok := err.(*errors.StatusError); ok && statusErr.ErrStatus.Code == 404 {
       return false, nil
