@@ -199,6 +199,17 @@ func expandAllowedFlexVolumes(in []interface{}) []v1beta.AllowedFlexVolume {
 func expandAllowedHostPaths(in []interface{}) []v1beta.AllowedHostPath {
   obj := make([]v1beta.AllowedHostsPath{}, len(in), len(in))
 
+  for i, ahp := range in {
+    cfg := ahp.(map(string)interface{})
+    obj[i] = v1beta.AllowedHostPath{
+      PathPrefix:       string(cfg["path_prefix"]),
+    }
+
+    if v, ok := cfg["read_only"].(bool); ok {
+      obj[i].ReadOnly = v
+    }
+  }
+
   return obj, nil
 }
 
