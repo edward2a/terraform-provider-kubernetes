@@ -5,9 +5,9 @@ import (
   "log"
 
   "github.com/hashicorp/terraform/helper/schema"
-  api "k8s.io/api/policy/v1beta"
+  api "k8s.io/api/policy/v1beta1"
   "k8s.io/apimachinery/pkg/api/errors"
-  meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1beta"
+  meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1beta1"
   pkgApi "k8s.io/apimachinery/pkg/types"
   "k8s.io/client-go/kubernetes"
 )
@@ -44,10 +44,10 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
     },
 
     Schema: map[string]*schema.Schema{
-      "Metadata": namespaceMetadataSchema("pod security policy", true),
+      "metadata": namespacedMetadataSchema("pod security policy", true),
       "spec": {
         Type:         schema.TypeList,
-        Description:  podSecurityPolicySpecDoc,
+        //Description:  podSecurityPolicySpecDoc,
         Required:     true,
         MaxItems:     1,
 
@@ -55,170 +55,172 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
           Schema: map[string]*schema.Schema{
             "allow_privilege_escalation": {
               Type:         schema.TypeString,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
               Default:      false,    // API defaults to true
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "allowed_capabilities": {
               Type:         schema.TypeList,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "allowed_flex_volumes": {
               Type:         schema.TypeList,
-              Description:  allowedFlexVolumeDoc,
+              //Description:  allowedFlexVolumeDoc,
               Optional:     true,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                  "drivers": {
+               /* "drivers": {
                     Type:         schema.TypeList,
-                    Description:  "",
+                    //Description:  "",
                     Optional:     true,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
-                        "driver": {
+                 */     "driver": {
                           Type:         schema.TypeString,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                         },
-                      },
-                    },
-                  },
+                    //},
+                  //},
+                //},
                 },
               },
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "allowed_host_paths": {
               Type:         schema.TypeList,
-              Description:  allowedHostPathDoc,
+              //Description:  allowedHostPathDoc,
               Optional:     true,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                  "paths": {
+                /*"paths": {
                     Type:         schema.TypeList,
-                    Description:  "",
+                    //Description:  "",
                     Optional:     true,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
-                        "path_prefix": {
+                */      "path_prefix": {
                           Type:         schema.TypeString,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                         },
                         "read_only": {
                           Type:         schema.TypeString,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                         },
-                      },
-                    },
-                  },
+                    //},
+                  //},
+                //},
                 },
               },
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "allowed_proc_mount_types": {
               Type:         schema.TypeList,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "allowed_unsafe_sysctls": {
               Type:         schema.TypeList,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "default_add_capabilities": {
               Type:         schema.TypeList,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "default_allow_privilege_escalation": {
               Type:         schema.TypeString,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "forbidden_sysctls": {
               Type:         schema.TypeList,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "fs_group": {
               Type:         schema.TypeList,
-              Description:  fsGroupStrategyOptionsDoc,
+              //Description:  fsGroupStrategyOptionsDoc,
               Optional:     true,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
                   "rules": {
                     Type:         schema.TypeList,
-                    Description:  "",
+                    //Description:  "",
                     Optional:     true,
                     MaxItems:     1,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "id_ranges": {
                           Type:         schema.TypeList,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                           MaxItems:     1,
                           Elem: &schema.Resource{
-                            "max": {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
-                            },
-                            "min": {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
+                            Schema: map[string]*schema.Schema{
+                              "max": {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
+                              "min": {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
                             },
                           },
                         },
                         "rule": {
                           Type:         schema.TypeString,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                         },
                       },
@@ -227,61 +229,61 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                 },
               },
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "host_ipc": {
               Type:         schema.TypeString,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "host_network": {
               Type:         schema.TypeString,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "host_pid": {
-              Type:         schema.TyprString,
-              Description:  "",
+              Type:         schema.TypeString,
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "host_ports": {
               Type:         schema.TypeList,
-              Description:  hostPortRangeDoc,
+              //Description:  hostPortRangeDoc,
               Optional:     true,
               Elem: &schema.Resource{
-                Schema: map[string]*schempa.Schema{
+                Schema: map[string]*schema.Schema{
                   "ranges": {
                     Type:         schema.TypeList,
-                    Description:  "",
+                    //Description:  "",
                     Optional:     true,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "max": {
                           Type:         schema.TypeString,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                         },
                         "min": {
                           Type:         schema.TypeString,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                         },
                       },
@@ -290,75 +292,77 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                 },
               },
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "privileged": {
               Type:         schema.TypeString,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "readonly_root_filesystem": {
               Type:         schema.TypeString,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "required_drop_capabilities": {
               Type:         schema.TypeList,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "run_as_group": {
               Type:         schema.TypeList,
-              Description:  runAsGroupStrategyOptionsDoc,
+              //Description:  runAsGroupStrategyOptionsDoc,
               Optional:     true,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
                   "rules": {
                     Type:         schema.TypeList,
-                    Description:  "",
+                    //Description:  "",
                     Optional:     true,
                     MaxItems:     1,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "id_ranges": {
                           Type:         schema.TypeList,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                           MaxItems:     1,
                           Elem: &schema.Resource{
-                            "max": {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
-                            },
-                            "min": {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
+                            Schema: map[string]*schema.Schema{
+                              "max": {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
+                              "min": {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
                             },
                           },
                         },
                         "rule": {
                           Type:         schema.TypeString,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                         },
                       },
@@ -367,45 +371,47 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                 },
               },
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "run_as_user": {
               Type:         schema.TypeList,
-              Description:  runAsUserStrategyOptionsDoc,
+              //Description:  runAsUserStrategyOptionsDoc,
               Optional:     true,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
                   "rules": {
                     Type:         schema.TypeList,
-                    Description:  "",
+                    //Description:  "",
                     Optional:     true,
                     MaxItems:     1,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "id_ranges": {
                           Type:         schema.TypeList,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                           MaxItems:     1,
                           Elem: &schema.Resource{
-                            "max": {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
-                            },
-                            "min": {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
+                            Schema: map[string]*schema.Schema{
+                              "max": {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
+                              "min": {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
                             },
                           },
                         },
                         "rule": {
                           Type:         schema.TypeString,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                         },
                       },
@@ -414,101 +420,108 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                 },
               },
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "selinux": {
               Type:         schema.TypeList,
-              Description:  seLinuxStrategyOptionsDoc,
+              //Description:  seLinuxStrategyOptionsDoc,
               Optional:     true,
+              MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                  "rules": {
+                /*"rules": {
                     Type:         schema.TypeList,
-                    Description:  "",
+                    //Description:  "",
                     Optional:     true,
                     MaxItems:     1,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
-                        "rule": {
+                */      "rule": {
                           Type:         schema.TypeString,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                         },
                         "selinux_options": {
                           Type:         schema.TypeList,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
-                          Elem: &schema.Schema{
-                            "level":  {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
-                            },
-                            "role": {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
-                            },
-                            "type": {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
-                            },
-                            "user": {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
+                          MaxItems:     1,
+                          Elem: &schema.Resource{
+                            Schema: map[string]*schema.Schema{
+
+                              "level":  {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
+                              "role": {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
+                              "type": {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
+                              "user": {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
                             },
                           },
                         },
-                      },
-                    },
-                  },
+                //    },
+                //  },
+                //},
                 },
               },
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "supplemental_groups": {
               Type:         schema.TypeList,
-              Description:  supplementalGroupsStrategyOptionsDoc,
+              //Description:  supplementalGroupsStrategyOptionsDoc,
               Optional:     true,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
                   "rules": {
                     Type:         schema.TypeList,
-                    Description:  "",
+                    //Description:  "",
                     Optional:     true,
                     MaxItems:     1,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "id_ranges": {
                           Type:         schema.TypeList,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                           MaxItems:     1,
                           Elem: &schema.Resource{
-                            "max": {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
-                            },
-                            "min": {
-                              Type:         schema.TypeString,
-                              Description:  "",
-                              Optional:     true,
+                            Schema: map[string]*schema.Schema{
+                              "max": {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
+                              "min": {
+                                Type:         schema.TypeString,
+                                //Description:  "",
+                                Optional:     true,
+                              },
                             },
                           },
                         },
                         "rule": {
                           Type:         schema.TypeString,
-                          Description:  "",
+                          //Description:  "",
                           Optional:     true,
                         },
                       },
@@ -517,14 +530,14 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                 },
               },
             },
-          },
-        },
+      //  },
+      //},
 
-        Elem: &schema.Resource{
-          Schema: map[string]*schema.Schema{
+      //Elem: &schema.Resource{
+      //  Schema: map[string]*schema.Schema{
             "volumes": {
               Type:         schema.TypeList,
-              Description:  "",
+              //Description:  "",
               Optional:     true,
             },
           },
@@ -534,11 +547,11 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
   }
 }
 
-func resourceKubernetesPodSecurtyPolicyCreate(d *schema.ResourceData, meta interface{}) error {
+func resourceKubernetesPodSecurityPolicyCreate(d *schema.ResourceData, meta interface{}) error {
   conn := meta.(*kubernetes.Clientset)
 
   metadata := expandMetadata(d.Get("metadata")).([]interface{})
-  spec, err := expandNetworkPolicySpec(d.Get("spec")).([]interface{})
+  spec, err := expandPodSecurityPolicySpec(d.Get("spec")).([]interface{})
   if err != nil {
     return err
   }
