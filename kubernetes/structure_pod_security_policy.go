@@ -178,7 +178,7 @@ func expandPodSecurityPolicy(in []interface{}) (*v1beta.PodSecurityPolicySpec, e
     spec.Volumes = v
   }
 
-  return &spec, nil
+  return &spec
 }
 
 
@@ -192,7 +192,7 @@ func expandAllowedFlexVolumes(in []interface{}) []v1beta.AllowedFlexVolume {
     }
   }
 
-  return obj, nil
+  return obj
 }
 
 
@@ -210,55 +210,72 @@ func expandAllowedHostPaths(in []interface{}) []v1beta.AllowedHostPath {
     }
   }
 
-  return obj, nil
+  return obj
 }
 
 
 func expandFSGroup(in []interface{}) v1beta.FSGroupStrategyOptions {
-  obj := v1beta.FSGroupStrategyOptions{}
+  obj := v1beta.FSGroupStrategyOptions{
+    Rule:       string(in["rule"]),
+    Ranges:     expandIDRanges(in["ranges"]),
+  }
 
-  return obj, nil
+  return obj
 }
 
 
 func expandHostPorts(in []interface{}) []v1beta.HostPortRange {
   obj := make([]v1beta.HostPortRange{}, len(in), len(in))
 
-  return obj, nil
+  return obj
 }
 
 
-func expandRunAsGroup(in []interface{}) *v1beta.RunAsGroupStrategyOptions {
+func expandRunAsGroup(in []interface{}) v1beta.RunAsGroupStrategyOptions {
   obj := v1beta.RunAsGroupStrategyOptions{}
 
-  return obj, nil
+  return obj
 }
 
 
-func expandRunAsUser(in []interface{}) *v1beta.RunAsUserStrategyOptions {
+func expandRunAsUser(in []interface{}) v1beta.RunAsUserStrategyOptions {
   obj := v1beta.RunAsUserStrategyOptions{}
 
   //TODO
 
-  return obj, nil
+  return obj
 }
 
 
-func expandSELinux(in []interface{}) *v1beta.SELinuxStrategyOptions {
+func expandSELinux(in []interface{}) v1beta.SELinuxStrategyOptions {
   obj := v1beta.SELinuxStrategyOptions{}
 
   // TODO
 
-  return obj, nil
+  return obj
 }
 
 
-func expandSuplementalGroups(in []interface{}) *v1beta.SupplementalGroupsStrategyOptions {
+func expandSuplementalGroups(in []interface{}) v1beta.SupplementalGroupsStrategyOptions {
   obj := v1beta.SupplementalGroupsStrategyOptions{}
 
   // TODO
 
-  return obj, nil
+  return obj
+}
+
+func expandIDRanges(in []interface{}) []v1beta.IDRange {
+  obj := v1beta.IDRange{}
+
+  for i, idr := range in {
+    cfg := n.(map(string)interface[])
+    obj[i] = v1beta.IDRange{
+      Max: v["max"],
+      Min: v["min"]
+    }
+  }
+
+  return obj
 }
 
 // Patchers
