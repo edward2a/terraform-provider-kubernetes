@@ -100,11 +100,11 @@ func flattenPodSecurityPolicySpec(in v1beta.PodSecurityPolicySpec, d *schema.Res
   }
 }
 
-func flattenAllowedFlexVolumes(in v1beta.AllowedFlexVolume) ([]interface{}, error) {
+func flattenAllowedFlexVolumes(in []v1beta.AllowedFlexVolume) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
-func flattenAllowedHostPaths(in v1beta.AllowedHostPath,) ([]interface{}, error) {
+func flattenAllowedHostPaths(in []v1beta.AllowedHostPath) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
@@ -112,7 +112,7 @@ func flattenFSGroup(in v1beta.FSGroupStrategyOptions) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
-func flattenHostPorts(in v1beta.HostPortRange) ([]interface{}, error) {
+func flattenHostPorts(in []v1beta.HostPortRange) ([]interface{}, error) {
   att := make([]interface{}, len(in), len(in))
 }
 
@@ -149,12 +149,12 @@ func expandPodSecurityPolicy(in []interface{}) (*v1beta.PodSecurityPolicySpec, e
   }
 
   // TODO: type assertion
-  if v, ok := p["allowed_capabilities"].(); ok && len(v) > 0 {
+  if v, ok := p["allowed_capabilities"]; ok && len(v) > 0 {
     spec.AllowedCapabilities = v
   }
 
   if v, ok := p["fs_group"].(string); ok && v != "" {
-    spec.FSGroup = v
+    spec.FSGroup = expandFSGroup(v)
   }
 
   if v, ok := p["privileged"].(bool); ok && v != nil {
@@ -174,35 +174,80 @@ func expandPodSecurityPolicy(in []interface{}) (*v1beta.PodSecurityPolicySpec, e
   }
 
   // TODO: type assertion
-  if v, ok := p["volumes"].(); ok && v != nil {
+  if v, ok := p["volumes"]; ok && v != nil {
     spec.Volumes = v
   }
 
   return &spec, nil
 }
 
+
+func expandAllowedFlexVolumes(in []interface{}) []v1beta.AllowedFlexVolume {
+  obj := make([]v1beta.AllowedFlexVolume{}, len(in), len(in))
+
+  for i, afv := range in {
+    cfg := afv.(map(string)interface{})
+    obj[i] =  v1beta.AllowedFlexVolume{
+      Driver:         string(cfg["driver"]),
+    }
+  }
+
+  return obj, nil
+}
+
+
+func expandAllowedHostPaths(in []interface{}) []v1beta.AllowedHostPath {
+  obj := make([]v1beta.AllowedHostsPath{}, len(in), len(in))
+
+  return obj, nil
+}
+
+
+func expandFSGroup(in []interface{}) v1beta.FSGroupStrategyOptions {
+  obj := v1beta.FSGroupStrategyOptions{}
+
+  return obj, nil
+}
+
+
+func expandHostPorts(in []interface{}) []v1beta.HostPortRange {
+  obj := make([]v1beta.HostPortRange{}, len(in), len(in))
+
+  return obj, nil
+}
+
+
+func expandRunAsGroup(in []interface{}) *v1beta.RunAsGroupStrategyOptions {
+  obj := v1beta.RunAsGroupStrategyOptions{}
+
+  return obj, nil
+}
+
+
 func expandRunAsUser(in []interface{}) *v1beta.RunAsUserStrategyOptions {
-  spec := v1beta.RunAsUserStrategyOptions{}
+  obj := v1beta.RunAsUserStrategyOptions{}
 
   //TODO
 
-  return &spec, nil
+  return obj, nil
 }
+
 
 func expandSELinux(in []interface{}) *v1beta.SELinuxStrategyOptions {
-  spec := v1beta.SELinuxStrategyOptions{}
+  obj := v1beta.SELinuxStrategyOptions{}
 
   // TODO
 
-  return &spec, nil
+  return obj, nil
 }
 
+
 func expandSuplementalGroups(in []interface{}) *v1beta.SupplementalGroupsStrategyOptions {
-  spec := v1beta.SupplementalGroupsStrategyOptions{}
+  obj := v1beta.SupplementalGroupsStrategyOptions{}
 
   // TODO
 
-  return &spec, nil
+  return obj, nil
 }
 
 // Patchers
