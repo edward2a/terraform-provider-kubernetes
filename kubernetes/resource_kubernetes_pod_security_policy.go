@@ -45,7 +45,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
     },
 
     Schema: map[string]*schema.Schema{
-      "metadata": namespacedMetadataSchema("pod security policy", true),
+      "metadata": metadataSchema("pod security policy", true),
       "spec": {
         Type:         schema.TypeList,
         //Description:  podSecurityPolicySpecDoc,
@@ -204,7 +204,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           Type:         schema.TypeList,
                           //Description:  "",
                           Optional:     true,
-                          MaxItems:     1, //TODO: can it be various maps here?
+                          //MaxItems:     1, //TODO: can it be various maps here?
                           Elem: &schema.Resource{
                             Schema: map[string]*schema.Schema{
                               "max": {
@@ -580,7 +580,8 @@ func resourceKubernetesPodSecurityPolicyCreate(d *schema.ResourceData, meta inte
 func resourceKubernetesPodSecurityPolicyRead(d *schema.ResourceData, meta interface{}) error {
   conn := meta.(*kubernetes.Clientset)
 
-  namespace, name, err := idParts(d.Id())
+  // namespace not used here, so discarded with _
+  _, name, err := idParts(d.Id())
   if err != nil {
     return err
   }
@@ -609,7 +610,8 @@ func resourceKubernetesPodSecurityPolicyRead(d *schema.ResourceData, meta interf
 func resourceKubernetesPodSecurityPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
   conn := meta.(*kubernetes.Clientset)
 
-  namespace, name, err := idParts(d.Id())
+  // namespace not used here, so discarded with _
+  _, name, err := idParts(d.Id())
   if err != nil {
     return err
   }
@@ -620,6 +622,7 @@ func resourceKubernetesPodSecurityPolicyUpdate(d *schema.ResourceData, meta inte
     if err != nil {
       return err
     }
+    ops = append(ops, *diffOps...)
   }
   data, err := ops.MarshalJSON()
   if err != nil {
@@ -639,7 +642,8 @@ func resourceKubernetesPodSecurityPolicyUpdate(d *schema.ResourceData, meta inte
 func resourceKubernetesPodSecurityPolicyDelete(d *schema.ResourceData, meta interface{}) error {
   conn := meta.(*kubernetes.Clientset)
 
-  namespace, name, err := idParts(d.Id())
+  // namespace not used here, so discarded with _
+  _, name, err := idParts(d.Id())
   if err != nil {
     return err
   }
@@ -657,7 +661,8 @@ func resourceKubernetesPodSecurityPolicyDelete(d *schema.ResourceData, meta inte
 func resourceKubernetesPodSecurityPolicyExists(d *schema.ResourceData, meta interface{}) (bool, error) {
   conn := meta.(*kubernetes.Clientset)
 
-  namespace, name, err := idParts(d.Id())
+  // namespace not used here, so discarded with _
+  _, name, err := idParts(d.Id())
   if err != nil {
     return false, err
   }
