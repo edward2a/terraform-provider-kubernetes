@@ -11,6 +11,13 @@ import (
   //"k8s.io/apimachinery/pkg/util/intstr"
 )
 
+/* TODO's
+
+  - consistency: selinux vs se_linux, readonly vs read_only? check with other files
+  - function naming: flattenSELinux vs flattenSeLinux, and others, also check with other files for consistency
+
+*/
+
 // Flatteners
 
 func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface{}, error) {
@@ -92,7 +99,6 @@ func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface
     att["selinux"] = flattenSELinux(in.SELinux) // map array
   //}
 
-  //TODO
   //if in.SupplementalGroups != nil && len(in.SupplementalGroups) > 0 {
     att["supplemental_groups"] = flattenSupplementalGroups(in.SupplementalGroups) // map array
   //}
@@ -137,7 +143,7 @@ func flattenAllowedHostPaths(in []v1beta1.AllowedHostPath) ([]interface{}) {
 func flattenFSGroup(in v1beta1.FSGroupStrategyOptions) ([]interface{}) {
   att := make(map[string]interface{})
 
-  if len(in.Rule) > 0 { //!= nil {
+  if in.Rule != "" { //!= nil {
     att["rule"] = string(in.Rule)
   }
 
@@ -159,44 +165,84 @@ func flattenFSGroup(in v1beta1.FSGroupStrategyOptions) ([]interface{}) {
 func flattenHostPorts(in []v1beta1.HostPortRange) ([]interface{}) {
   att := make([]interface{}, len(in), len(in))
 
+  for i, hpr := range in {
+    r := make(map[string]int32)
+    r["max"] = int32(hpr.Max)
+    r["min"] = int32(hpr.Min)
+
+    att[i] = r
+  }
+
   return att
 }
 
 
 func flattenRunAsGroup(in *v1beta1.RunAsGroupStrategyOptions) ([]interface{}) {
-  att := make([]interface{},0,0)
+  att := make(map[string]interface{})
 
-  return att
+  if in.Rule != "" {
+    att["rule"] = string(in.Rule)
+  }
+
+  if len(in.Ranges) > 0 {
+    att["ranges"] = flattenIDRanges(in.Ranges)
+  }
+
+  return []interface{}{att}
 }
 
 
 func flattenRunAsUser(in v1beta1.RunAsUserStrategyOptions) ([]interface{}) {
-  att := make([]interface{},0,0)
+  att := make(map[string]interface{})
 
-  return att
+  if in.Rule != "" {
+    att["rule"] = string(in.Rule)
+  }
+
+  if len(in.Ranges) > 0 {
+    att["ranges"] = flattenIDRanges(in.Ranges)
+  }
+
+  return []interface{}{att}
 }
 
 
 func flattenSELinux(in v1beta1.SELinuxStrategyOptions) ([]interface{}) {
-  att := make([]interface{},0,0)
+  att := make(map[string]interface{})
 
-  return att
+  if in.Rule != "" {
+    att["rule"] = string(in.Rule)
+  }
+
+  if in.SELinuxOptions != nil {
+    att["selinux_options"] = flattenSeLinuxOptions
+  }
+
+  return []interface{}{att}
 }
 
 
 func flattenSupplementalGroups(in v1beta1.SupplementalGroupsStrategyOptions) ([]interface{}) {
-  att := make([]interface{},0,0)
+  att := make(map[string]interface{})
 
-  return att
+  if in.Rule != "" {
+    att["rule"] = string(in.Rule)
+  }
+
+  if len(in.Ranges) > 0 {
+    att["ranges"] = flattenIDRanges(in.Ranges)
+  }
+
+  return []interface{}{att}
 }
 
 
 func flattenIDRanges(in []v1beta1.IDRange) ([]interface{}) {
-  att := make([]map[string]int, len(in), len(in)) //{make(map[string]interface{})})
+  att := make([]map[string]int64, len(in), len(in)) //{make(map[string]interface{})})
   for i, r := range in {
-    att[i] = make(map[string]int)
-    att[i]["max"] = int(r.Max)
-    att[i]["min"] = int(r.Min)
+    att[i] = make(map[string]int64)
+    att[i]["max"] = int64(r.Max)
+    att[i]["min"] = int64(r.Min)
   }
 
   return []interface{}{att}
