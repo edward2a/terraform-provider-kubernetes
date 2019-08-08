@@ -268,12 +268,73 @@ func expandPodSecurityPolicySpec(in []interface{}) (*v1beta1.PodSecurityPolicySp
     spec.AllowedCapabilities = v
   }
 
+  //TODO check if need expander
+  if v, ok := p["allowed_flex_volumes"].([]v1beta1.AllowedFlexVolume); ok && len(v) > 0 {
+    spec.AllowedFlexVolumes = v
+  }
+
+  //TODO check if need expander
+  if v, ok := p["allowed_host_paths"].([]v1beta1.AllowedHostPath); ok && len(v) > 0 {
+    spec.AllowedHostPaths = v
+  }
+
+  //TODO check if need expander
+  if v, ok := p["allowed_proc_mount_types"].([]v1.ProcMountType); ok && len(v) > 0 {
+    spec.AllowedProcMountTypes = v
+  }
+
+  if v, ok := p["allowed_unsafe_sysctls"].([]string); ok && len(v) > 0 {
+    spec.AllowedUnsafeSysctls = v
+  }
+
+  //TODO check if need expander
+  if v, ok := p["default_add_capabilities"].([]v1.Capability); ok && len(v) > 0 {
+    spec.DefaultAddCapabilities = v
+  }
+
+  if v, ok := p["default_allow_privilege_escalation"].(bool); ok {
+    spec.DefaultAllowPrivilegeEscalation = &v
+  }
+
+  if v, ok := p["forbidden_sysctls"].([]string); ok {
+    spec.ForbiddenSysctls = v
+  }
+
   if v, ok := p["fs_group"].([]interface{}); ok && v != nil {
     spec.FSGroup = expandFSGroup(v)
   }
 
+  if v, ok := p["host_ipc"].(bool); ok {
+    spec.HostIPC = v
+  }
+
+  if v, ok := p["host_network"].(bool); ok {
+    spec.HostNetwork = v
+  }
+
+  if v, ok := p["host_pid"].(bool); ok {
+    spec.HostPID = v
+  }
+
+  //TODO check if need expander
+  if v, ok := p["host_ports"].([]v1beta1.HostPortRange); ok && len(v) > 0 {
+    spec.HostPorts = v
+  }
+
   if v, ok := p["privileged"].(bool); ok {
     spec.Privileged = v
+  }
+
+  if v, ok := p["readonly_root_filesystem"].(bool); ok {
+    spec.ReadOnlyRootFilesystem = v
+  }
+
+  if v, ok := p["required_drop_capabilities"].([]v1.Capability); ok && len(v) > 0 {
+    spec.RequiredDropCapabilities = v
+  }
+
+  if v, ok := p["run_as_gorup"].([]interface{}); ok && v != nil {
+    spec.RunAsGroup = expandRunAsGroup(v)
   }
 
   if v, ok := p["run_as_user"].([]interface{}); ok && v != nil {
@@ -355,14 +416,14 @@ func expandHostPorts(in []interface{}) []v1beta1.HostPortRange {
 */
 
 
-func expandRunAsGroup(in []interface{}) v1beta1.RunAsGroupStrategyOptions {
+func expandRunAsGroup(in []interface{}) *v1beta1.RunAsGroupStrategyOptions {
   cfg := in[0].(map[string]interface{})
   obj := v1beta1.RunAsGroupStrategyOptions{
     Rule:       cfg["rule"].(v1beta1.RunAsGroupStrategy),
     Ranges:     expandIDRanges(cfg["ranges"].([]interface{})),
   }
 
-  return obj
+  return &obj
 }
 
 
