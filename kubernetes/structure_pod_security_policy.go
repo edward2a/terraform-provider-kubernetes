@@ -36,6 +36,14 @@ func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface
     att["allowed_host_paths"] = flattenAllowedHostPaths(in.AllowedHostPaths) // map array
   }
 
+  if len(in.AllowedProcMountTypes) > 0 {
+    pmts := make([]string, 0, 0)
+    for i, c := range in.AllowedProcMountTypes {
+      pmts[i] = string(c)
+    }
+    att["allowed_proc_mount_types"] = newStringSet(schema.HashString, pmts) // string array
+  }
+
   if in.AllowedUnsafeSysctls != nil && len(in.AllowedUnsafeSysctls) > 0 {
     att["allowed_unsafe_sysctls"] = newStringSet(schema.HashString, in.AllowedUnsafeSysctls) // string array
   }
@@ -96,17 +104,35 @@ func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface
   return []interface{}{att}, nil
 }
 
+
 func flattenAllowedFlexVolumes(in []v1beta1.AllowedFlexVolume) ([]interface{}) {
   att := make([]interface{}, len(in), len(in))
 
+  for i, afv := range in {
+    v := make(map[string]interface{})
+    v["driver"] = afv.Driver
+
+    att[i] = v
+  }
+
   return att
 }
+
 
 func flattenAllowedHostPaths(in []v1beta1.AllowedHostPath) ([]interface{}) {
   att := make([]interface{}, len(in), len(in))
 
+  for i, ahp :=  range in {
+    p := make(map[string]interface{})
+    p["path_prefix"] = ahp.PathPrefix
+    p["read_only"] = ahp.ReadOnly
+
+    att[i] = p
+  }
+
   return att
 }
+
 
 func flattenFSGroup(in v1beta1.FSGroupStrategyOptions) ([]interface{}) {
   att := make(map[string]interface{})
@@ -129,11 +155,13 @@ func flattenFSGroup(in v1beta1.FSGroupStrategyOptions) ([]interface{}) {
   return []interface{}{att}
 }
 
+
 func flattenHostPorts(in []v1beta1.HostPortRange) ([]interface{}) {
   att := make([]interface{}, len(in), len(in))
 
   return att
 }
+
 
 func flattenRunAsGroup(in *v1beta1.RunAsGroupStrategyOptions) ([]interface{}) {
   att := make([]interface{},0,0)
@@ -141,11 +169,13 @@ func flattenRunAsGroup(in *v1beta1.RunAsGroupStrategyOptions) ([]interface{}) {
   return att
 }
 
+
 func flattenRunAsUser(in v1beta1.RunAsUserStrategyOptions) ([]interface{}) {
   att := make([]interface{},0,0)
 
   return att
 }
+
 
 func flattenSELinux(in v1beta1.SELinuxStrategyOptions) ([]interface{}) {
   att := make([]interface{},0,0)
@@ -153,11 +183,13 @@ func flattenSELinux(in v1beta1.SELinuxStrategyOptions) ([]interface{}) {
   return att
 }
 
+
 func flattenSupplementalGroups(in v1beta1.SupplementalGroupsStrategyOptions) ([]interface{}) {
   att := make([]interface{},0,0)
 
   return att
 }
+
 
 func flattenIDRanges(in []v1beta1.IDRange) ([]interface{}) {
   att := make([]map[string]int, len(in), len(in)) //{make(map[string]interface{})})
