@@ -2,17 +2,18 @@ package kubernetes
 
 import (
   "fmt"
-  "strconv"
+  //"strconv"
 
   "github.com/hashicorp/terraform/helper/schema"
   "k8s.io/api/core/v1"
-  "k8s.io/api/policy/v1beta"
-  "k8s.io/apimachinery/pkg/util/intstr"
+  //"k8s.io/api/policy/v1beta1"
+  "k8s.io/api/extensions/v1beta1"
+  //"k8s.io/apimachinery/pkg/util/intstr"
 )
 
 // Flatteners
 
-func flattenPodSecurityPolicySpec(in v1beta.PodSecurityPolicySpec, d *schema.ResourceData) ([]interface{}, error) {
+func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface{}, error) {
   att := make(map[string]interface{})
 
   if in.AllowPrivilegeEscalation != nil {
@@ -20,7 +21,11 @@ func flattenPodSecurityPolicySpec(in v1beta.PodSecurityPolicySpec, d *schema.Res
   }
 
   if in.AllowedCapabilities != nil && len(in.AllowedCapabilities) > 0 {
-    att["allowed_capabilities"] = newStringSet(schema.HashString, in.AllowedCapabilities) // string array
+    caps := make([]string, 0, 0)
+    for i, c := range in.AllowedCapabilities {
+      caps[i] = string(in.AllowedCapabilities[i])
+    }
+    att["allowed_capabilities"] = newStringSet(schema.HashString, caps) // string array
   }
 
   if in.AllowedFlexVolumes != nil && len(in.AllowedFlexVolumes) > 0 {
@@ -32,11 +37,15 @@ func flattenPodSecurityPolicySpec(in v1beta.PodSecurityPolicySpec, d *schema.Res
   }
 
   if in.AllowedUnsafeSysctls != nil && len(in.AllowedUnsafeSysctls) > 0 {
-    att["allowed_unsafe_sysctls"] = newStringSet(schema.HashString, in.AllowedCapabilities) // string array
+    att["allowed_unsafe_sysctls"] = newStringSet(schema.HashString, in.AllowedUnsafeSysctls) // string array
   }
 
   if in.DefaultAddCapabilities != nil && len(in.DefaultAddCapabilities) > 0 {
-    att["default_add_capabilities"] = newStringSet(schema.HashString, in.DefaultAddCapabilities) // string array
+    caps := make([]string, 0, 0)
+    for i, c := range in.DefaultAddCapabilities {
+      caps[i] = string(in.DefaultAddCapabilities[i])
+    }
+    att["default_add_capabilities"] = newStringSet(schema.HashString, caps) // string array
   }
 
   if in.DefaultAllowPrivilegeEscalation != nil {
@@ -47,121 +56,174 @@ func flattenPodSecurityPolicySpec(in v1beta.PodSecurityPolicySpec, d *schema.Res
     att["forbidden_sysctls"] = newStringSet(schema.HashString, in.ForbiddenSysctls) // string array
   }
 
-  if in.FSGroup != nil && len(in.FSGroup) > 0 {
-    att["fs_group"] = flattenFSGroup(in.FSGroup) // map array
-  }
+  //TODO
+  //if in.FSGroup != nil && len(in.FSGroup) > 0 {
+    //att["fs_group"] = flattenFSGroup(in.FSGroup) // map array
+  //}
 
-  if in.HostIPC != nil {
+  //TODO
+  //if in.FSGroup != nil && len(in.FSGroup) > 0 {
+  /*if in.HostIPC != nil {
     att["host_ipc"] = in.HostIPC // bool
-  }
+  }*/
 
-  if in.HostNetwork != nil {
+  //TODO
+  /*if in.HostNetwork != nil {
     att["host_network"] = in.HostNetwork // bool
-  }
+  }*/
 
-  if in.HostPID != nil {
+  //TODO
+  /*if in.HostPID != nil {
     att["host_pid"] = in.HostPID // bool
-  }
+  }*/
 
   if in.HostPorts != nil && len(in.HostPorts) > 0 {
     att["host_ports"] = flattenHostPorts(in.HostPorts) // map array
   }
 
-  if in.Privileged != nil {
+  //TODO
+  /*if in.Privileged != nil {
     att["privileged"] = in.Privileged // bool
-  }
+  }*/
 
-  if in.ReadOnlyRootFilesystem != nil {
+  //TOOD
+  /*if in.ReadOnlyRootFilesystem != nil {
     att["readonly_root_filesystem"] = in.ReadOnlyRootFilesystem //bool
-  }
+  }*/
 
   if in.RequiredDropCapabilities != nil && len(in.RequiredDropCapabilities) > 0 {
     att["required_drop_capabilities"] = in.RequiredDropCapabilities // string array
   }
 
-  if in.RunAsGroup != nil && len(in.RunAsGroup) > 0 {
+  if in.RunAsGroup != nil /*&& len(in.RunAsGroup) > 0*/ {
     att["run_as_group"] = flattenRunAsGroup(in.RunAsGroup) // map array
   }
 
-  if in.RunAsUser != nil && len(in.RunAsUser) > 0 {
+  //TODO
+  /*if in.RunAsUser != nil && len(in.RunAsUser) > 0 {
     att["run_as_user"] = flattenRunAsUser(in.RunAsUser) // map array
-  }
+  }*/
 
-  if in.SELinux != nil && len(in.SELinux) > 0 {
+  //TODO
+  /*if in.SELinux != nil && len(in.SELinux) > 0 {
     att["selinux"] = flattenSELinux(in.SELinux) // map array
-  }
+  }*/
 
-  if in.SupplementalGroups != nil && len(in.SupplementalGroups) > 0 {
+  //TODO
+  /*if in.SupplementalGroups != nil && len(in.SupplementalGroups) > 0 {
     att["supplemental_groups"] = flattenSupplementalGroups(in.SupplementalGroups) // map array
-  }
+  }*/
 
   if in.Volumes != nil && len(in.Volumes) > 0 {
     att["volumes"] = in.Volumes // string array
   }
+
+  return []interface{}{att}, nil
 }
 
-func flattenAllowedFlexVolumes(in []v1beta.AllowedFlexVolume) ([]interface{}, error) {
+func flattenAllowedFlexVolumes(in []v1beta1.AllowedFlexVolume) ([]interface{}) {
   att := make([]interface{}, len(in), len(in))
+
+  return att
 }
 
-func flattenAllowedHostPaths(in []v1beta.AllowedHostPath) ([]interface{}, error) {
+func flattenAllowedHostPaths(in []v1beta1.AllowedHostPath) ([]interface{}) {
   att := make([]interface{}, len(in), len(in))
+
+  return att
 }
 
-func flattenFSGroup(in v1beta.FSGroupStrategyOptions) ([]interface{}, error) {
-  att := make([]interface{}, len(in), len(in))
+func flattenFSGroup(in v1beta1.FSGroupStrategyOptions) ([]interface{}) {
+  att := make(map[string]interface{})
+
+  if len(in.Rule) > 0 { //!= nil {
+    att["rule"] = string(in.Rule)
+  }
+
+  //if in.Ranges != nil && len(in.Ranges) > 0 {
+  if len(in.Ranges) > 0 {
+    att["ranges"] = flattenIDRanges(in.Ranges)
+  /*att["ranges"] = make(map[string]interface{}, len(in.Ranges), len(in.Ranges))
+    for i, r := range in.Ranges {
+      att["ranges"][i] = make([]interface{}, len(r), len(r))
+      att["ranges"][i]["max"] = int(r["max"])
+      att["ranges"][i]["min"] = int(r["min"])
+    }*/
+  }
+
+  return []interface{}{att}
 }
 
-func flattenHostPorts(in []v1beta.HostPortRange) ([]interface{}, error) {
+func flattenHostPorts(in []v1beta1.HostPortRange) ([]interface{}) {
   att := make([]interface{}, len(in), len(in))
+
+  return att
 }
 
-func flattenRunAsGroup(in v1beta.RunAsGroupStrategyOptions) ([]interface{}, error) {
-  att := make([]interface{}, len(in), len(in))
+func flattenRunAsGroup(in *v1beta1.RunAsGroupStrategyOptions) ([]interface{}) {
+  att := make([]interface{},0,0)
+
+  return att
 }
 
-func flattenRunAsUser(in v1beta.RunAsUserStrategyOptions) ([]interface{}, error) {
-  att := make([]interface{}, len(in), len(in))
+func flattenRunAsUser(in v1beta1.RunAsUserStrategyOptions) ([]interface{}) {
+  att := make([]interface{},0,0)
+
+  return att
 }
 
-func flattenSELinux(in v1beta.SELinuxStrategyOptions) ([]interface{}, error) {
-  att := make([]interface{}, len(in), len(in))
+func flattenSELinux(in v1beta1.SELinuxStrategyOptions) ([]interface{}) {
+  att := make([]interface{},0,0)
+
+  return att
 }
 
-func flattenSupplementalGroups(in v1beta.SupplementalGroupsStrategyOptions) ([]interface{}, error) {
-  att := make([]interface{}, len(in), len(in))
+func flattenSupplementalGroups(in v1beta1.SupplementalGroupsStrategyOptions) ([]interface{}) {
+  att := make([]interface{},0,0)
+
+  return att
+}
+
+func flattenIDRanges(in []v1beta1.IDRange) ([]interface{}) {
+  att := make([]map[string]int, len(in), len(in)) //{make(map[string]interface{})})
+  for i, r := range in {
+    att[i] = make(map[string]int)
+    att[i]["max"] = int(r.Max)
+    att[i]["min"] = int(r.Min)
+  }
+
+  return []interface{}{att}
 }
 
 // Expanders
 
-func expandPodSecurityPolicy(in []interface{}) (*v1beta.PodSecurityPolicySpec, error) {
-  spec := v1beta.PodSecurityPolicySpec{}
+func expandPodSecurityPolicySpec(in []interface{}) (*v1beta1.PodSecurityPolicySpec, error) {
+  spec := v1beta1.PodSecurityPolicySpec{}
 
   if len(in) == 0 || in[0] == nil {
-    return nil, fmt.Error("failed to expand PodSecurityPolicy.Spec: null or empty input")
+    return nil, fmt.Errorf("failed to expand PodSecurityPolicy.Spec: null or empty input")
   }
 
   p := in[0].(map[string]interface{})
 
   // Verify there is something to expand
-  if v, ok := p["allow_privilege_escalation"].(bool); ok && v != nil {
-    spec.AllowPrivilegeEscalation = v
+  if v, ok := p["allow_privilege_escalation"].(bool); ok {
+    spec.AllowPrivilegeEscalation = &v
   }
 
-  // TODO: type assertion
-  if v, ok := p["allowed_capabilities"]; ok && len(v) > 0 {
+  if v, ok := p["allowed_capabilities"].([]v1.Capability); ok && len(v) > 0 {
     spec.AllowedCapabilities = v
   }
 
-  if v, ok := p["fs_group"].(string); ok && v != "" {
+  if v, ok := p["fs_group"].([]interface{}); ok && v != nil {
     spec.FSGroup = expandFSGroup(v)
   }
 
-  if v, ok := p["privileged"].(bool); ok && v != nil {
+  if v, ok := p["privileged"].(bool); ok {
     spec.Privileged = v
   }
 
-  if v, ok := p["run_as_user"].([]interface{}); ok && *v != nil {
+  if v, ok := p["run_as_user"].([]interface{}); ok && v != nil {
     spec.RunAsUser = expandRunAsUser(v)
   }
 
@@ -173,22 +235,21 @@ func expandPodSecurityPolicy(in []interface{}) (*v1beta.PodSecurityPolicySpec, e
     spec.SupplementalGroups = expandSupplementalGroups(v)
   }
 
-  // TODO: type assertion
-  if v, ok := p["volumes"]; ok && v != nil {
+  if v, ok := p["volumes"].([]v1beta1.FSType); ok && v != nil {
     spec.Volumes = v
   }
 
-  return &spec
+  return &spec, nil
 }
 
 
-func expandAllowedFlexVolumes(in []interface{}) []v1beta.AllowedFlexVolume {
-  obj := make([]v1beta.AllowedFlexVolume{}, len(in), len(in))
+func expandAllowedFlexVolumes(in []interface{}) []v1beta1.AllowedFlexVolume {
+  obj := make([]v1beta1.AllowedFlexVolume, len(in), len(in))
 
   for i, afv := range in {
-    cfg := afv.(map(string)interface{})
-    obj[i] =  v1beta.AllowedFlexVolume{
-      Driver:         string(cfg["driver"]),
+    cfg := afv.(map[string]interface{})
+    obj[i] = v1beta1.AllowedFlexVolume{
+      Driver: cfg["driver"].(string),
     }
   }
 
@@ -196,13 +257,13 @@ func expandAllowedFlexVolumes(in []interface{}) []v1beta.AllowedFlexVolume {
 }
 
 
-func expandAllowedHostPaths(in []interface{}) []v1beta.AllowedHostPath {
-  obj := make([]v1beta.AllowedHostsPath{}, len(in), len(in))
+func expandAllowedHostPaths(in []interface{}) []v1beta1.AllowedHostPath {
+  obj := make([]v1beta1.AllowedHostPath, len(in), len(in))
 
   for i, ahp := range in {
-    cfg := ahp.(map(string)interface{})
-    obj[i] = v1beta.AllowedHostPath{
-      PathPrefix:       string(cfg["path_prefix"]),
+    cfg := ahp.(map[string]interface{})
+    obj[i] = v1beta1.AllowedHostPath{
+      PathPrefix: cfg["path_prefix"].(string),
     }
 
     if v, ok := cfg["read_only"].(bool); ok {
@@ -214,18 +275,18 @@ func expandAllowedHostPaths(in []interface{}) []v1beta.AllowedHostPath {
 }
 
 
-func expandFSGroup(in []interface{}) v1beta.FSGroupStrategyOptions {
-  obj := v1beta.FSGroupStrategyOptions{
-    Rule:       string(in["rule"]),
-    Ranges:     expandIDRanges(in["ranges"]),
+func expandFSGroup(in []interface{}) v1beta1.FSGroupStrategyOptions {
+  obj := v1beta1.FSGroupStrategyOptions{
+    Rule:       in["rule"].(v1beta1.FSGroupStrategyType),
+    Ranges:     expandIDRanges(in["ranges"].([]interface{})),
   }
 
   return obj
 }
 
-
-func expandHostPorts(in []interface{}) []v1beta.HostPortRange {
-  obj := make([]v1beta.HostPortRange{}, len(in), len(in))
+/*
+func expandHostPorts(in []interface{}) []v1beta1.HostPortRange {
+  obj := make([]v1beta1.HostPortRange{}, len(in), len(in))
 
   for i, hpr := range in {
     if max, min := hpr[i]["max"].(int); hpr[i]["min"].(int) {
@@ -237,35 +298,36 @@ func expandHostPorts(in []interface{}) []v1beta.HostPortRange {
 
   return obj
 }
+*/
 
 
-func expandRunAsGroup(in []interface{}) v1beta.RunAsGroupStrategyOptions {
-  obj := v1beta.RunAsGroupStrategyOptions{
-    Rule:       string(in["rule"]),
-    Ranges:     expandIDRanges(in["ranges"]),
+func expandRunAsGroup(in []interface{}) v1beta1.RunAsGroupStrategyOptions {
+  obj := v1beta1.RunAsGroupStrategyOptions{
+    Rule:       in["rule"].(v1beta1.RunAsGroupStrategy),
+    Ranges:     expandIDRanges(in["ranges"].([]interface{})),
   }
 
   return obj
 }
 
 
-func expandRunAsUser(in []interface{}) v1beta.RunAsUserStrategyOptions {
-  obj := v1beta.RunAsUserStrategyOptions{
-    Rule:       string(in["rule"]),
-    Ranges:     expandIDRanges(in["ranges"]),
+func expandRunAsUser(in []interface{}) v1beta1.RunAsUserStrategyOptions {
+  obj := v1beta1.RunAsUserStrategyOptions{
+    Rule:       in["rule"].(v1beta1.RunAsUserStrategy),
+    Ranges:     expandIDRanges(in["ranges"].([]interface{})),
   }
 
   return obj
 }
 
 
-func expandSELinux(in []interface{}) v1beta.SELinuxStrategyOptions {
-  obj := v1beta.SELinuxStrategyOptions{
-    Rule:           string(in["rule"]),
+func expandSELinux(in []interface{}) v1beta1.SELinuxStrategyOptions {
+  obj := v1beta1.SELinuxStrategyOptions{
+    Rule:           in["rule"].(v1beta1.SELinuxStrategy),
   }
 
-  if slo, ok := in["selinux_options"]; ok {
-    obj.SELinuxOptions = v1.SELinuxOptions{}
+  if slo, ok := in["selinux_options"].([]interface{}); ok {
+    obj.SELinuxOptions = &v1.SELinuxOptions{}
 
     if v, ok := slo["level"].(string); ok {
       obj.SELinuxOptions.Level = v
@@ -288,23 +350,23 @@ func expandSELinux(in []interface{}) v1beta.SELinuxStrategyOptions {
 }
 
 
-func expandSuplementalGroups(in []interface{}) v1beta.SupplementalGroupsStrategyOptions {
-  obj := v1beta.SupplementalGroupsStrategyOptions{
+func expandSupplementalGroups(in []interface{}) v1beta1.SupplementalGroupsStrategyOptions {
+  obj := v1beta1.SupplementalGroupsStrategyOptions{
     Rule:       string(in["rule"]),
-    Ranges      expandIDRanges(in["ranges"]),
+    Ranges:     expandIDRanges(in["ranges"]),
   }
 
   return obj
 }
 
-func expandIDRanges(in []interface{}) []v1beta.IDRange {
-  obj := v1beta.IDRange{}
+func expandIDRanges(in []interface{}) []v1beta1.IDRange {
+  obj := make([]v1beta1.IDRange{})
 
   for i, idr := range in {
-    cfg := n.(map(string)interface[])
-    obj[i] = v1beta.IDRange{
+    cfg := n.(map[string]interface{})
+    obj[i] = v1beta1.IDRange{
       Max: v["max"],
-      Min: v["min"]
+      Min: v["min"],
     }
   }
 
@@ -312,3 +374,9 @@ func expandIDRanges(in []interface{}) []v1beta.IDRange {
 }
 
 // Patchers
+
+func patchPodSecurityPolicySpec(keyPrefix string, pathPrefix string, d *schema.ResourceData) (PatchOperations, error) {
+  ops := make([]PatchOperation, 0, 0)
+
+  return ops, nil
+}
