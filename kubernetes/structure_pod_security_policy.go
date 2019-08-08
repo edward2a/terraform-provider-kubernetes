@@ -56,40 +56,17 @@ func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface
     att["forbidden_sysctls"] = newStringSet(schema.HashString, in.ForbiddenSysctls) // string array
   }
 
-  //TODO
-  //if in.FSGroup != nil && len(in.FSGroup) > 0 {
-    //att["fs_group"] = flattenFSGroup(in.FSGroup) // map array
-  //}
-
-  //TODO
-  //if in.FSGroup != nil && len(in.FSGroup) > 0 {
-  /*if in.HostIPC != nil {
-    att["host_ipc"] = in.HostIPC // bool
-  }*/
-
-  //TODO
-  /*if in.HostNetwork != nil {
-    att["host_network"] = in.HostNetwork // bool
-  }*/
-
-  //TODO
-  /*if in.HostPID != nil {
-    att["host_pid"] = in.HostPID // bool
-  }*/
+  att["fs_group"] = flattenFSGroup(in.FSGroup) // map array
+  att["host_ipc"] = in.HostIPC // bool
+  att["host_network"] = in.HostNetwork // bool
+  att["host_pid"] = in.HostPID // bool
 
   if in.HostPorts != nil && len(in.HostPorts) > 0 {
     att["host_ports"] = flattenHostPorts(in.HostPorts) // map array
   }
 
-  //TODO
-  /*if in.Privileged != nil {
-    att["privileged"] = in.Privileged // bool
-  }*/
-
-  //TOOD
-  /*if in.ReadOnlyRootFilesystem != nil {
-    att["readonly_root_filesystem"] = in.ReadOnlyRootFilesystem //bool
-  }*/
+  att["privileged"] = in.Privileged // bool
+  att["readonly_root_filesystem"] = in.ReadOnlyRootFilesystem //bool
 
   if in.RequiredDropCapabilities != nil && len(in.RequiredDropCapabilities) > 0 {
     att["required_drop_capabilities"] = in.RequiredDropCapabilities // string array
@@ -99,20 +76,18 @@ func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface
     att["run_as_group"] = flattenRunAsGroup(in.RunAsGroup) // map array
   }
 
-  //TODO
-  /*if in.RunAsUser != nil && len(in.RunAsUser) > 0 {
+  //if in.RunAsUser != nil && len(in.RunAsUser) > 0 {
     att["run_as_user"] = flattenRunAsUser(in.RunAsUser) // map array
-  }*/
+  //}
 
-  //TODO
-  /*if in.SELinux != nil && len(in.SELinux) > 0 {
+  //if in.SELinux != nil && len(in.SELinux) > 0 {
     att["selinux"] = flattenSELinux(in.SELinux) // map array
-  }*/
+  //}
 
   //TODO
-  /*if in.SupplementalGroups != nil && len(in.SupplementalGroups) > 0 {
+  //if in.SupplementalGroups != nil && len(in.SupplementalGroups) > 0 {
     att["supplemental_groups"] = flattenSupplementalGroups(in.SupplementalGroups) // map array
-  }*/
+  //}
 
   if in.Volumes != nil && len(in.Volumes) > 0 {
     att["volumes"] = in.Volumes // string array
