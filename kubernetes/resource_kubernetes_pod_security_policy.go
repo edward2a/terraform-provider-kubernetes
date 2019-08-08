@@ -204,7 +204,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           Type:         schema.TypeList,
                           //Description:  "",
                           Optional:     true,
-                          MaxItems:     1,
+                          MaxItems:     1, //TODO: can it be various maps here?
                           Elem: &schema.Resource{
                             Schema: map[string]*schema.Schema{
                               "max": {
@@ -555,7 +555,6 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
 func resourceKubernetesPodSecurityPolicyCreate(d *schema.ResourceData, meta interface{}) error {
   conn := meta.(*kubernetes.Clientset)
 
-  //TODO type validation, d.Get("metadata") == interface{} ??
   metadata := expandMetadata(d.Get("metadata").([]interface{}))
   spec, err := expandPodSecurityPolicySpec(d.Get("spec").([]interface{}))
   if err != nil {
