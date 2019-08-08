@@ -380,8 +380,8 @@ func expandIDRanges(in []interface{}) []v1beta1.IDRange {
 
 // Patchers
 
-func patchPodSecurityPolicySpec(keyPrefix string, pathPrefix string, d *schema.ResourceData) (PatchOperations, error) {
-  ops := make([]PatchOperation, 0, 0)
+func patchPodSecurityPolicySpec(keyPrefix string, pathPrefix string, d *schema.ResourceData) (*PatchOperations, error) {
+  ops := make(PatchOperations, 0, 0)
 
-  return ops, nil
+  return &ops, nil
 }
