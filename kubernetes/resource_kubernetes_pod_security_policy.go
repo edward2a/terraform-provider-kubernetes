@@ -208,12 +208,12 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           Elem: &schema.Resource{
                             Schema: map[string]*schema.Schema{
                               "max": {
-                                Type:         schema.TypeString,
+                                Type:         schema.TypeInt,
                                 //Description:  "",
                                 Optional:     true,
                               },
                               "min": {
-                                Type:         schema.TypeString,
+                                Type:         schema.TypeInt,
                                 //Description:  "",
                                 Optional:     true,
                               },
@@ -279,12 +279,12 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "max": {
-                          Type:         schema.TypeString,
+                          Type:         schema.TypeInt,
                           //Description:  "",
                           Optional:     true,
                         },
                         "min": {
-                          Type:         schema.TypeString,
+                          Type:         schema.TypeInt,
                           //Description:  "",
                           Optional:     true,
                         },
@@ -351,12 +351,12 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           Elem: &schema.Resource{
                             Schema: map[string]*schema.Schema{
                               "max": {
-                                Type:         schema.TypeString,
+                                Type:         schema.TypeInt,
                                 //Description:  "",
                                 Optional:     true,
                               },
                               "min": {
-                                Type:         schema.TypeString,
+                                Type:         schema.TypeInt,
                                 //Description:  "",
                                 Optional:     true,
                               },
@@ -401,12 +401,12 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           Elem: &schema.Resource{
                             Schema: map[string]*schema.Schema{
                               "max": {
-                                Type:         schema.TypeString,
+                                Type:         schema.TypeInt,
                                 //Description:  "",
                                 Optional:     true,
                               },
                               "min": {
-                                Type:         schema.TypeString,
+                                Type:         schema.TypeInt,
                                 //Description:  "",
                                 Optional:     true,
                               },
@@ -512,12 +512,12 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           Elem: &schema.Resource{
                             Schema: map[string]*schema.Schema{
                               "max": {
-                                Type:         schema.TypeString,
+                                Type:         schema.TypeInt,
                                 //Description:  "",
                                 Optional:     true,
                               },
                               "min": {
-                                Type:         schema.TypeString,
+                                Type:         schema.TypeInt,
                                 //Description:  "",
                                 Optional:     true,
                               },
