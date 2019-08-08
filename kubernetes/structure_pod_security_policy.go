@@ -23,7 +23,7 @@ func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface
   if in.AllowedCapabilities != nil && len(in.AllowedCapabilities) > 0 {
     caps := make([]string, 0, 0)
     for i, c := range in.AllowedCapabilities {
-      caps[i] = string(in.AllowedCapabilities[i])
+      caps[i] = string(c)
     }
     att["allowed_capabilities"] = newStringSet(schema.HashString, caps) // string array
   }
@@ -43,7 +43,7 @@ func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface
   if in.DefaultAddCapabilities != nil && len(in.DefaultAddCapabilities) > 0 {
     caps := make([]string, 0, 0)
     for i, c := range in.DefaultAddCapabilities {
-      caps[i] = string(in.DefaultAddCapabilities[i])
+      caps[i] = string(c)
     }
     att["default_add_capabilities"] = newStringSet(schema.HashString, caps) // string array
   }
@@ -357,7 +357,7 @@ func expandSELinux(in []interface{}) v1beta1.SELinuxStrategyOptions {
 func expandSupplementalGroups(in []interface{}) v1beta1.SupplementalGroupsStrategyOptions {
   cfg := in[0].(map[string]interface{})
   obj := v1beta1.SupplementalGroupsStrategyOptions{
-    Rule:       string(cfg["rule"]),
+    Rule:       cfg["rule"].(v1beta1.SupplementalGroupsStrategyType),
     Ranges:     expandIDRanges(cfg["ranges"].([]interface{})),
   }
 
@@ -365,7 +365,7 @@ func expandSupplementalGroups(in []interface{}) v1beta1.SupplementalGroupsStrate
 }
 
 func expandIDRanges(in []interface{}) []v1beta1.IDRange {
-  obj := make([]v1beta1.IDRange{})
+  obj := make([]v1beta1.IDRange, len(in), len(in))
 
   for i, idr := range in {
     cfg := idr.(map[string]interface{})
