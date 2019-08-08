@@ -275,10 +275,11 @@ func expandAllowedHostPaths(in []interface{}) []v1beta1.AllowedHostPath {
 }
 
 
-func expandFSGroup(in []interface{}) v1beta1.FSGroupStrategyOptions {
+func expandFSGroup(in interface{}) v1beta1.FSGroupStrategyOptions {
+  cfg := in.(map[string]interface{})
   obj := v1beta1.FSGroupStrategyOptions{
-    Rule:       in["rule"].(v1beta1.FSGroupStrategyType),
-    Ranges:     expandIDRanges(in["ranges"].([]interface{})),
+    Rule:       cfg["rule"].(v1beta1.FSGroupStrategyType),
+    Ranges:     expandIDRanges(cfg["ranges"].([]interface{})),
   }
 
   return obj
@@ -302,9 +303,10 @@ func expandHostPorts(in []interface{}) []v1beta1.HostPortRange {
 
 
 func expandRunAsGroup(in []interface{}) v1beta1.RunAsGroupStrategyOptions {
+  cfg := in[0].(map[string]interface{})
   obj := v1beta1.RunAsGroupStrategyOptions{
-    Rule:       in["rule"].(v1beta1.RunAsGroupStrategy),
-    Ranges:     expandIDRanges(in["ranges"].([]interface{})),
+    Rule:       cfg["rule"].(v1beta1.RunAsGroupStrategy),
+    Ranges:     expandIDRanges(cfg["ranges"].([]interface{})),
   }
 
   return obj
@@ -312,9 +314,10 @@ func expandRunAsGroup(in []interface{}) v1beta1.RunAsGroupStrategyOptions {
 
 
 func expandRunAsUser(in []interface{}) v1beta1.RunAsUserStrategyOptions {
+  cfg := in[0].(map[string]interface{})
   obj := v1beta1.RunAsUserStrategyOptions{
-    Rule:       in["rule"].(v1beta1.RunAsUserStrategy),
-    Ranges:     expandIDRanges(in["ranges"].([]interface{})),
+    Rule:       cfg["rule"].(v1beta1.RunAsUserStrategy),
+    Ranges:     expandIDRanges(cfg["ranges"].([]interface{})),
   }
 
   return obj
@@ -322,11 +325,12 @@ func expandRunAsUser(in []interface{}) v1beta1.RunAsUserStrategyOptions {
 
 
 func expandSELinux(in []interface{}) v1beta1.SELinuxStrategyOptions {
+  cfg := in[0].(map[string]interface{})
   obj := v1beta1.SELinuxStrategyOptions{
-    Rule:           in["rule"].(v1beta1.SELinuxStrategy),
+    Rule:           cfg["rule"].(v1beta1.SELinuxStrategy),
   }
 
-  if slo, ok := in["selinux_options"].([]interface{}); ok {
+  if slo, ok := cfg["selinux_options"].(map[string]interface{}); ok {
     obj.SELinuxOptions = &v1.SELinuxOptions{}
 
     if v, ok := slo["level"].(string); ok {
@@ -351,9 +355,10 @@ func expandSELinux(in []interface{}) v1beta1.SELinuxStrategyOptions {
 
 
 func expandSupplementalGroups(in []interface{}) v1beta1.SupplementalGroupsStrategyOptions {
+  cfg := in[0].(map[string]interface{})
   obj := v1beta1.SupplementalGroupsStrategyOptions{
-    Rule:       string(in["rule"]),
-    Ranges:     expandIDRanges(in["ranges"]),
+    Rule:       string(cfg["rule"]),
+    Ranges:     expandIDRanges(cfg["ranges"].([]interface{})),
   }
 
   return obj
@@ -363,10 +368,10 @@ func expandIDRanges(in []interface{}) []v1beta1.IDRange {
   obj := make([]v1beta1.IDRange{})
 
   for i, idr := range in {
-    cfg := n.(map[string]interface{})
+    cfg := idr.(map[string]interface{})
     obj[i] = v1beta1.IDRange{
-      Max: v["max"],
-      Min: v["min"],
+      Max: cfg["max"].(int64),
+      Min: cfg["min"].(int64),
     }
   }
 
