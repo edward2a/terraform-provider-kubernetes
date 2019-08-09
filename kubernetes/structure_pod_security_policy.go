@@ -498,69 +498,157 @@ func patchPodSecurityPolicySpec(keyPrefix string, pathPrefix string, d *schema.R
   ops := make(PatchOperations, 0, 0)
 
   if d.HasChange(keyPrefix + "allow_privilege_escalation") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + "allow_privilege_escalation",
+      Value: d.Get(keyPrefix + "allow_privilege_escalation").(bool)
+    })
   }
 
   if d.HasChange(keyPrefix + "allowed_capabilities") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "allowed_flex_volumes") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "allowed_host_paths") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "allowed_proc_mount_types") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "allowed_unsafe_sysctls") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "default_add_capabilities") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "default_allow_privilege_escalation") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "forbidden_sysctls") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "fs_group") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "host_ipc") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "host_network") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "host_pid") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "host_ports") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "privileged") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "readonly_root_filesystem") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "required_drop_capabilities") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "run_as_group") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "run_as_user") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "selinux") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "supplemental_groups") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   if d.HasChange(keyPrefix + "volumes") {
+    ops = append(ops, &ReplaceOperation{
+      Path: pathPrefix + 
+      Value: d.Get(keyPrefix + 
+    })
   }
 
   return &ops, nil
