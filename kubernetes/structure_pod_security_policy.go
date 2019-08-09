@@ -499,155 +499,155 @@ func patchPodSecurityPolicySpec(keyPrefix string, pathPrefix string, d *schema.R
 
   if d.HasChange(keyPrefix + "allow_privilege_escalation") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + "allow_privilege_escalation",
-      Value: d.Get(keyPrefix + "allow_privilege_escalation").(bool)
+      Path: pathPrefix + "AllowPrivilegeEscalation",
+      Value: d.Get(keyPrefix + "allow_privilege_escalation").(bool),
     })
   }
 
   if d.HasChange(keyPrefix + "allowed_capabilities") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "AllowedCapabilities",
+      Value: d.Get(keyPrefix + "allowed_capabilities").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "allowed_flex_volumes") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "AllowedFlexVolumes",
+      Value: d.Get(keyPrefix + "allowed_flex_volumes").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "allowed_host_paths") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "AllowedHostPaths",
+      Value: d.Get(keyPrefix + "allowed_host_paths").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "allowed_proc_mount_types") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "AllowedProcMountTypes",
+      Value: d.Get(keyPrefix + "allowed_proc_mount_types").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "allowed_unsafe_sysctls") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "AllowedUnsafeSysctls",
+      Value: d.Get(keyPrefix + "allowed_unsafe_sysctls").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "default_add_capabilities") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "DefaultAddCapabilities",
+      Value: d.Get(keyPrefix + "default_add_capabilities").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "default_allow_privilege_escalation") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "DefaultAllowPrivilegeEscalation",
+      Value: d.Get(keyPrefix + "default_allow_privilege_escalation").(bool),
     })
   }
 
   if d.HasChange(keyPrefix + "forbidden_sysctls") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "ForbiddenSysctls",
+      Value: d.Get(keyPrefix + "forbidden_sysctls").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "fs_group") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "FSGroup",
+      Value: d.Get(keyPrefix + "fs_group").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "host_ipc") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "HostIPC",
+      Value: d.Get(keyPrefix + "host_ipc").(bool),
     })
   }
 
   if d.HasChange(keyPrefix + "host_network") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "HostNetwork",
+      Value: d.Get(keyPrefix + "host_network").(bool),
     })
   }
 
   if d.HasChange(keyPrefix + "host_pid") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "HostPID",
+      Value: d.Get(keyPrefix + "host_pid").(bool),
     })
   }
 
   if d.HasChange(keyPrefix + "host_ports") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "HostPorts",
+      Value: d.Get(keyPrefix + "host_ports").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "privileged") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "Privileged",
+      Value: d.Get(keyPrefix + "privileged").(bool),
     })
   }
 
   if d.HasChange(keyPrefix + "readonly_root_filesystem") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "ReadOnlyRootFilesystem",
+      Value: d.Get(keyPrefix + "readonly_root_filesystem").(bool),
     })
   }
 
   if d.HasChange(keyPrefix + "required_drop_capabilities") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "RequiredDropCapabilities",
+      Value: d.Get(keyPrefix + "required_drop_capabilities").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "run_as_group") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "RunAsGroup",
+      Value: d.Get(keyPrefix + "run_as_group").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "run_as_user") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "RunAsUser",
+      Value: d.Get(keyPrefix + "run_as_user").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "selinux") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "SELinux",
+      Value: d.Get(keyPrefix + "selinux").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "supplemental_groups") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "SupplementalGroups",
+      Value: d.Get(keyPrefix + "supplemental_groups").([]interface{}),
     })
   }
 
   if d.HasChange(keyPrefix + "volumes") {
     ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + 
-      Value: d.Get(keyPrefix + 
+      Path: pathPrefix + "Volumes",
+      Value: d.Get(keyPrefix + "volumes").([]interface{}),
     })
   }
 
