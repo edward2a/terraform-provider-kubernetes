@@ -497,5 +497,71 @@ func expandIDRanges(in []interface{}) []v1beta1.IDRange {
 func patchPodSecurityPolicySpec(keyPrefix string, pathPrefix string, d *schema.ResourceData) (*PatchOperations, error) {
   ops := make(PatchOperations, 0, 0)
 
+  if d.HasChange(keyPrefix + "allow_privilege_escalation") {
+  }
+
+  if d.HasChange(keyPrefix + "allowed_capabilities") {
+  }
+
+  if d.HasChange(keyPrefix + "allowed_flex_volumes") {
+  }
+
+  if d.HasChange(keyPrefix + "allowed_host_paths") {
+  }
+
+  if d.HasChange(keyPrefix + "allowed_proc_mount_types") {
+  }
+
+  if d.HasChange(keyPrefix + "allowed_unsafe_sysctls") {
+  }
+
+  if d.HasChange(keyPrefix + "default_add_capabilities") {
+  }
+
+  if d.HasChange(keyPrefix + "default_allow_privilege_escalation") {
+  }
+
+  if d.HasChange(keyPrefix + "forbidden_sysctls") {
+  }
+
+  if d.HasChange(keyPrefix + "fs_group") {
+  }
+
+  if d.HasChange(keyPrefix + "host_ipc") {
+  }
+
+  if d.HasChange(keyPrefix + "host_network") {
+  }
+
+  if d.HasChange(keyPrefix + "host_pid") {
+  }
+
+  if d.HasChange(keyPrefix + "host_ports") {
+  }
+
+  if d.HasChange(keyPrefix + "privileged") {
+  }
+
+  if d.HasChange(keyPrefix + "readonly_root_filesystem") {
+  }
+
+  if d.HasChange(keyPrefix + "required_drop_capabilities") {
+  }
+
+  if d.HasChange(keyPrefix + "run_as_group") {
+  }
+
+  if d.HasChange(keyPrefix + "run_as_user") {
+  }
+
+  if d.HasChange(keyPrefix + "selinux") {
+  }
+
+  if d.HasChange(keyPrefix + "supplemental_groups") {
+  }
+
+  if d.HasChange(keyPrefix + "volumes") {
+  }
+
   return &ops, nil
 }
