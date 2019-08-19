@@ -84,12 +84,12 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                   "path_prefix": {
                     Type:         schema.TypeString,
                     //Description:  "",
-                      Optional:     true,
+                    Optional:     true,
                   },
                   "read_only": {
                     Type:         schema.TypeString,
                     //Description:  "",
-                      Optional:     true,
+                    Optional:     true,
                   },
                 },
               },
@@ -137,31 +137,31 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                        "ranges": {
-                          Type:         schema.TypeList,
+                  "ranges": {
+                    Type:         schema.TypeList,
+                    //Description:  "",
+                    Optional:     true,
+                    //MaxItems:     1, //TODO: can it be various maps here?
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "max": {
+                          Type:         schema.TypeInt,
                           //Description:  "",
                           Optional:     true,
-                          //MaxItems:     1, //TODO: can it be various maps here?
-                          Elem: &schema.Resource{
-                            Schema: map[string]*schema.Schema{
-                              "max": {
-                                Type:         schema.TypeInt,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                              "min": {
-                                Type:         schema.TypeInt,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                            },
-                          },
                         },
-                        "rule": {
-                          Type:         schema.TypeString,
+                        "min": {
+                          Type:         schema.TypeInt,
                           //Description:  "",
-                          Required:     true,
+                          Optional:     true,
                         },
+                      },
+                    },
+                  },
+                  "rule": {
+                    Type:         schema.TypeString,
+                    //Description:  "",
+                    Required:     true,
+                  },
                 },
               },
             },
@@ -239,31 +239,31 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                        "ranges": {
-                          Type:         schema.TypeList,
-                          //Description:  "",
-                          Optional:     true,
-                          MaxItems:     1,
-                          Elem: &schema.Resource{
-                            Schema: map[string]*schema.Schema{
-                              "max": {
-                                Type:         schema.TypeInt,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                              "min": {
-                                Type:         schema.TypeInt,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                            },
-                          },
-                        },
-                        "rule": {
-                          Type:         schema.TypeString,
+                  "ranges": {
+                    Type:         schema.TypeList,
+                    //Description:  "",
+                    Optional:     true,
+                    MaxItems:     1,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "max": {
+                          Type:         schema.TypeInt,
                           //Description:  "",
                           Optional:     true,
                         },
+                        "min": {
+                          Type:         schema.TypeInt,
+                          //Description:  "",
+                          Optional:     true,
+                        },
+                      },
+                    },
+                  },
+                  "rule": {
+                    Type:         schema.TypeString,
+                    //Description:  "",
+                    Optional:     true,
+                  },
                 },
               },
             },
@@ -275,31 +275,31 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                        "ranges": {
-                          Type:         schema.TypeList,
+                  "ranges": {
+                    Type:         schema.TypeList,
+                    //Description:  "",
+                    Optional:     true,
+                    MaxItems:     1,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "max": {
+                          Type:         schema.TypeInt,
                           //Description:  "",
                           Optional:     true,
-                          MaxItems:     1,
-                          Elem: &schema.Resource{
-                            Schema: map[string]*schema.Schema{
-                              "max": {
-                                Type:         schema.TypeInt,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                              "min": {
-                                Type:         schema.TypeInt,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                            },
-                          },
                         },
-                        "rule": {
-                          Type:         schema.TypeString,
+                        "min": {
+                          Type:         schema.TypeInt,
                           //Description:  "",
-                          Required:     true,
+                          Optional:     true,
                         },
+                      },
+                    },
+                  },
+                  "rule": {
+                    Type:         schema.TypeString,
+                    //Description:  "",
+                    Required:     true,
+                  },
                 },
               },
             },
@@ -311,42 +311,41 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                        "rule": {
+                  "rule": {
+                    Type:         schema.TypeString,
+                    //Description:  "",
+                    Required:     true,
+                  },
+                  "selinux_options": {
+                    Type:         schema.TypeList,
+                    //Description:  "",
+                    Optional:     true,
+                    MaxItems:     1,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "level":  {
                           Type:         schema.TypeString,
                           //Description:  "",
-                          Required:     true,
+                          Optional:     true,
                         },
-                        "selinux_options": {
-                          Type:         schema.TypeList,
+                        "role": {
+                          Type:         schema.TypeString,
                           //Description:  "",
                           Optional:     true,
-                          MaxItems:     1,
-                          Elem: &schema.Resource{
-                            Schema: map[string]*schema.Schema{
-
-                              "level":  {
-                                Type:         schema.TypeString,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                              "role": {
-                                Type:         schema.TypeString,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                              "type": {
-                                Type:         schema.TypeString,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                              "user": {
-                                Type:         schema.TypeString,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                            },
-                          },
                         },
+                        "type": {
+                          Type:         schema.TypeString,
+                          //Description:  "",
+                          Optional:     true,
+                        },
+                        "user": {
+                          Type:         schema.TypeString,
+                          //Description:  "",
+                          Optional:     true,
+                        },
+                      },
+                    },
+                  },
                 },
               },
             },
@@ -358,31 +357,31 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                        "ranges": {
-                          Type:         schema.TypeList,
+                  "ranges": {
+                    Type:         schema.TypeList,
+                    //Description:  "",
+                    Optional:     true,
+                    MaxItems:     1,
+                    Elem: &schema.Resource{
+                      Schema: map[string]*schema.Schema{
+                        "max": {
+                          Type:         schema.TypeInt,
                           //Description:  "",
                           Optional:     true,
-                          MaxItems:     1,
-                          Elem: &schema.Resource{
-                            Schema: map[string]*schema.Schema{
-                              "max": {
-                                Type:         schema.TypeInt,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                              "min": {
-                                Type:         schema.TypeInt,
-                                //Description:  "",
-                                Optional:     true,
-                              },
-                            },
-                          },
                         },
-                        "rule": {
-                          Type:         schema.TypeString,
+                        "min": {
+                          Type:         schema.TypeInt,
                           //Description:  "",
-                          Required:     true,
+                          Optional:     true,
                         },
+                      },
+                    },
+                  },
+                  "rule": {
+                    Type:         schema.TypeString,
+                    //Description:  "",
+                    Required:     true,
+                  },
                 },
               },
             },
