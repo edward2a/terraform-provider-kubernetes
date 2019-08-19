@@ -2,21 +2,10 @@ package kubernetes
 
 import (
   "fmt"
-  //"strconv"
-
   "github.com/hashicorp/terraform/helper/schema"
   "k8s.io/api/core/v1"
-  //"k8s.io/api/policy/v1beta1"
   "k8s.io/api/extensions/v1beta1"
-  //"k8s.io/apimachinery/pkg/util/intstr"
 )
-
-/* TODO's
-
-  - consistency: selinux vs se_linux, readonly vs read_only? check with other files
-  - function naming: flattenSELinux vs flattenSeLinux, and others, also check with other files for consistency
-
-*/
 
 // Flatteners
 
@@ -259,7 +248,6 @@ func expandPodSecurityPolicySpec(in []interface{}) (*v1beta1.PodSecurityPolicySp
 
   p := in[0].(map[string]interface{})
 
-  // Verify there is something to expand
   if v, ok := p["allow_privilege_escalation"].(bool); ok {
     spec.AllowPrivilegeEscalation = &v
   }
@@ -268,17 +256,14 @@ func expandPodSecurityPolicySpec(in []interface{}) (*v1beta1.PodSecurityPolicySp
     spec.AllowedCapabilities = v
   }
 
-  //TODO check if need expander
   if v, ok := p["allowed_flex_volumes"].([]v1beta1.AllowedFlexVolume); ok && len(v) > 0 {
     spec.AllowedFlexVolumes = v
   }
 
-  //TODO check if need expander
   if v, ok := p["allowed_host_paths"].([]v1beta1.AllowedHostPath); ok && len(v) > 0 {
     spec.AllowedHostPaths = v
   }
 
-  //TODO check if need expander
   if v, ok := p["allowed_proc_mount_types"].([]v1.ProcMountType); ok && len(v) > 0 {
     spec.AllowedProcMountTypes = v
   }
@@ -287,7 +272,6 @@ func expandPodSecurityPolicySpec(in []interface{}) (*v1beta1.PodSecurityPolicySp
     spec.AllowedUnsafeSysctls = v
   }
 
-  //TODO check if need expander
   if v, ok := p["default_add_capabilities"].([]v1.Capability); ok && len(v) > 0 {
     spec.DefaultAddCapabilities = v
   }
@@ -316,7 +300,6 @@ func expandPodSecurityPolicySpec(in []interface{}) (*v1beta1.PodSecurityPolicySp
     spec.HostPID = v
   }
 
-  //TODO check if need expander
   if v, ok := p["host_ports"].([]v1beta1.HostPortRange); ok && len(v) > 0 {
     spec.HostPorts = v
   }
