@@ -96,7 +96,7 @@ func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface
   //}
 
   //if in.SELinux != nil && len(in.SELinux) > 0 {
-    att["se_linux"] = flattenSELinux(in.SELinux) // map array
+    att["se_linux"] = flattenSeLinux(in.SELinux) // map array
   //}
 
   //if in.SupplementalGroups != nil && len(in.SupplementalGroups) > 0 {
@@ -207,7 +207,7 @@ func flattenRunAsUser(in v1beta1.RunAsUserStrategyOptions) ([]interface{}) {
 }
 
 
-func flattenSELinux(in v1beta1.SELinuxStrategyOptions) ([]interface{}) {
+func flattenSeLinux(in v1beta1.SELinuxStrategyOptions) ([]interface{}) {
   att := make(map[string]interface{})
 
   if in.Rule != "" {
