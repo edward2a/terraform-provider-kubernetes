@@ -149,7 +149,7 @@ func flattenFSGroup(in v1beta1.FSGroupStrategyOptions) ([]interface{}) {
 
   //if in.Ranges != nil && len(in.Ranges) > 0 {
   if len(in.Ranges) > 0 {
-    att["ranges"] = flattenIDRanges(in.Ranges)
+    att["ranges"] = flattenIdRanges(in.Ranges)
   /*att["ranges"] = make(map[string]interface{}, len(in.Ranges), len(in.Ranges))
     for i, r := range in.Ranges {
       att["ranges"][i] = make([]interface{}, len(r), len(r))
@@ -185,7 +185,7 @@ func flattenRunAsGroup(in *v1beta1.RunAsGroupStrategyOptions) ([]interface{}) {
   }
 
   if len(in.Ranges) > 0 {
-    att["ranges"] = flattenIDRanges(in.Ranges)
+    att["ranges"] = flattenIdRanges(in.Ranges)
   }
 
   return []interface{}{att}
@@ -200,7 +200,7 @@ func flattenRunAsUser(in v1beta1.RunAsUserStrategyOptions) ([]interface{}) {
   }
 
   if len(in.Ranges) > 0 {
-    att["ranges"] = flattenIDRanges(in.Ranges)
+    att["ranges"] = flattenIdRanges(in.Ranges)
   }
 
   return []interface{}{att}
@@ -230,14 +230,14 @@ func flattenSupplementalGroups(in v1beta1.SupplementalGroupsStrategyOptions) ([]
   }
 
   if len(in.Ranges) > 0 {
-    att["ranges"] = flattenIDRanges(in.Ranges)
+    att["ranges"] = flattenIdRanges(in.Ranges)
   }
 
   return []interface{}{att}
 }
 
 
-func flattenIDRanges(in []v1beta1.IDRange) ([]interface{}) {
+func flattenIdRanges(in []v1beta1.IDRange) ([]interface{}) {
   att := make([]map[string]int64, len(in), len(in)) //{make(map[string]interface{})})
   for i, r := range in {
     att[i] = make(map[string]int64)
