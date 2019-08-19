@@ -304,7 +304,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               },
             },
 
-            "selinux": {
+            "se_linux": {
               Type:         schema.TypeList,
               //Description:  seLinuxStrategyOptionsDoc,
               Required:     true,
@@ -316,7 +316,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                     //Description:  "",
                     Required:     true,
                   },
-                  "selinux_options": {
+                  "se_linux_options": {
                     Type:         schema.TypeList,
                     //Description:  "",
                     Optional:     true,

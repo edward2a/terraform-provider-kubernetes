@@ -96,7 +96,7 @@ func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface
   //}
 
   //if in.SELinux != nil && len(in.SELinux) > 0 {
-    att["selinux"] = flattenSELinux(in.SELinux) // map array
+    att["se_linux"] = flattenSELinux(in.SELinux) // map array
   //}
 
   //if in.SupplementalGroups != nil && len(in.SupplementalGroups) > 0 {
@@ -215,7 +215,7 @@ func flattenSELinux(in v1beta1.SELinuxStrategyOptions) ([]interface{}) {
   }
 
   if in.SELinuxOptions != nil {
-    att["selinux_options"] = flattenSeLinuxOptions
+    att["se_linux_options"] = flattenSeLinuxOptions
   }
 
   return []interface{}{att}
@@ -341,7 +341,7 @@ func expandPodSecurityPolicySpec(in []interface{}) (*v1beta1.PodSecurityPolicySp
     spec.RunAsUser = expandRunAsUser(v)
   }
 
-  if v, ok := p["selinux"].([]interface{}); ok && len(v) > 0 {
+  if v, ok := p["se_linux"].([]interface{}); ok && len(v) > 0 {
     spec.SELinux = expandSELinux(v)
   }
 
@@ -444,7 +444,7 @@ func expandSELinux(in []interface{}) v1beta1.SELinuxStrategyOptions {
     Rule:           v1beta1.SELinuxStrategy(cfg["rule"].(string)),
   }
 
-  if slo, ok := cfg["selinux_options"].(map[string]interface{}); ok {
+  if slo, ok := cfg["se_linux_options"].(map[string]interface{}); ok {
     obj.SELinuxOptions = &v1.SELinuxOptions{}
 
     if v, ok := slo["level"].(string); ok {
@@ -630,10 +630,10 @@ func patchPodSecurityPolicySpec(keyPrefix string, pathPrefix string, d *schema.R
     })
   }
 
-  if d.HasChange(keyPrefix + "selinux") {
+  if d.HasChange(keyPrefix + "se_linux") {
     ops = append(ops, &ReplaceOperation{
       Path: pathPrefix + "SELinux",
-      Value: d.Get(keyPrefix + "selinux").([]interface{}),
+      Value: d.Get(keyPrefix + "se_linux").([]interface{}),
     })
   }
 
