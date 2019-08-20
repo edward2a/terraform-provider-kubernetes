@@ -465,7 +465,7 @@ func resourceKubernetesPodSecurityPolicyUpdate(d *schema.ResourceData, meta inte
 
   ops := patchMetadata("metadata.0.", "/metadata/", d)
   if d.HasChange("spec") {
-    diffOps, err := patchPodSecurityPolicySpec("spec.0", "/spec", d)
+    diffOps, err := patchPodSecurityPolicySpec("spec.0.", "/spec", d)
     if err != nil {
       return err
     }
