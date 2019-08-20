@@ -300,8 +300,8 @@ func expandPodSecurityPolicySpec(in []interface{}) (*v1beta1.PodSecurityPolicySp
     spec.HostPID = v
   }
 
-  if v, ok := p["host_ports"].([]v1beta1.HostPortRange); ok && len(v) > 0 {
-    spec.HostPorts = v
+  if v, ok := p["host_ports"].([]interface{}); ok && len(v) > 0 {
+    spec.HostPorts = expandHostPorts(v)
   }
 
   if v, ok := p["privileged"].(bool); ok {
@@ -389,8 +389,8 @@ func expandHostPorts(in []interface{}) []v1beta1.HostPortRange {
   for i, hpr := range in {
     cfg := hpr.(map[string]interface{})
     obj[i] = v1beta1.HostPortRange{
-      Max:        cfg["max"].(int32),
-      Min:        cfg["min"].(int32),
+      Max:        int32(cfg["max"].(int)),
+      Min:        int32(cfg["min"].(int)),
     }
   }
 
