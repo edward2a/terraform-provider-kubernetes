@@ -190,12 +190,12 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
               Optional:     true,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
-                  "ranges": {
-                    Type:         schema.TypeList,
+                  //"ranges": {
+                  //  Type:         schema.TypeList,
                     //Description:  "",
-                    Optional:     true,
-                    Elem: &schema.Resource{
-                      Schema: map[string]*schema.Schema{
+                  //  Optional:     true,
+                  //  Elem: &schema.Resource{
+                  //    Schema: map[string]*schema.Schema{
                         "max": {
                           Type:         schema.TypeInt,
                           //Description:  "",
@@ -206,9 +206,9 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                           //Description:  "",
                           Optional:     true,
                         },
-                      },
-                    },
-                  },
+                      //},
+                    //},
+                  //},
                 },
               },
             },
@@ -475,7 +475,7 @@ func resourceKubernetesPodSecurityPolicyUpdate(d *schema.ResourceData, meta inte
   if err != nil {
     return fmt.Errorf("Failed to marshal update operations: %s", err)
   }
-  log.Printf("[INFO] Updating network policy %q: %v", name, string(data))
+  log.Printf("[INFO] Updating pod security policy %q: %v", name, string(data))
   out, err := conn.ExtensionsV1beta1().PodSecurityPolicies().Patch(name, pkgApi.JSONPatchType, data)
   if err != nil {
     return fmt.Errorf("Failed to update pod security policy: %s",  err)

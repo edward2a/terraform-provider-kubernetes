@@ -382,21 +382,21 @@ func expandFSGroup(in []interface{}) v1beta1.FSGroupStrategyOptions {
   return obj
 }
 
-/*
+
 func expandHostPorts(in []interface{}) []v1beta1.HostPortRange {
-  obj := make([]v1beta1.HostPortRange{}, len(in), len(in))
+  obj := make([]v1beta1.HostPortRange, len(in), len(in))
 
   for i, hpr := range in {
-    if max, min := hpr[i]["max"].(int); hpr[i]["min"].(int) {
-      obj[i] = HostPortRange{
-        Max:        max,
-        Min:        min,
-      }
+    cfg := hpr.(map[string]interface{})
+    obj[i] = v1beta1.HostPortRange{
+      Max:        cfg["max"].(int32),
+      Min:        cfg["min"].(int32),
+    }
   }
 
   return obj
 }
-*/
+
 
 
 func expandRunAsGroup(in []interface{}) *v1beta1.RunAsGroupStrategyOptions {
