@@ -243,7 +243,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                     Type:         schema.TypeList,
                     //Description:  "",
                     Optional:     true,
-                    MaxItems:     1,
+                    //MaxItems:     1,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "max": {
@@ -279,7 +279,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                     Type:         schema.TypeList,
                     //Description:  "",
                     Optional:     true,
-                    MaxItems:     1,
+                    //MaxItems:     1,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "max": {
@@ -361,7 +361,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                     Type:         schema.TypeList,
                     //Description:  "",
                     Optional:     true,
-                    MaxItems:     1,
+                    //MaxItems:     1,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "max": {
