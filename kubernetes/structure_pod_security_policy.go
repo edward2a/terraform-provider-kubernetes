@@ -544,9 +544,10 @@ func patchPodSecurityPolicySpec(keyPrefix string, pathPrefix string, d *schema.R
   }
 
   if d.HasChange(keyPrefix + "fs_group") {
+    fsGroup := expandFSGroup(d.Get(keyPrefix + "fs_group").([]interface{}))
     ops = append(ops, &ReplaceOperation{
       Path: pathPrefix + "/fsGroup",
-      Value: d.Get(keyPrefix + "fs_group").([]interface{}),
+      Value: fsGroup,
     })
   }
 
