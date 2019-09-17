@@ -601,16 +601,18 @@ func patchPodSecurityPolicySpec(keyPrefix string, pathPrefix string, d *schema.R
   }
 
   if d.HasChange(keyPrefix + "run_as_group") {
+    runAsGroup := expandRunAsGroup(d.Get(keyPrefix + "run_as_group").([]interface{}))
     ops = append(ops, &ReplaceOperation{
       Path: pathPrefix + "/runAsGroup",
-      Value: d.Get(keyPrefix + "run_as_group").([]interface{}),
+      Value: runAsGroup,
     })
   }
 
   if d.HasChange(keyPrefix + "run_as_user") {
+    runAsUser := expandRunAsUser(d.Get(keyPrefix + "run_as_user").([]interface{}))
     ops = append(ops, &ReplaceOperation{
       Path: pathPrefix + "/runAsUser",
-      Value: d.Get(keyPrefix + "run_as_user").([]interface{}),
+      Value: runAsUser,
     })
   }
 
@@ -622,9 +624,10 @@ func patchPodSecurityPolicySpec(keyPrefix string, pathPrefix string, d *schema.R
   }
 
   if d.HasChange(keyPrefix + "supplemental_groups") {
+    supplementalGroups := expandSupplementalGroups(d.Get(keyPrefix + "supplemental_groups").([]interface{}))
     ops = append(ops, &ReplaceOperation{
       Path: pathPrefix + "/supplementalGroups",
-      Value: d.Get(keyPrefix + "supplemental_groups").([]interface{}),
+      Value: supplementalGroups,
     })
   }
 
