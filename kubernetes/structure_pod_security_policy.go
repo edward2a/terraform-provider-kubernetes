@@ -572,10 +572,21 @@ func patchPodSecurityPolicySpec(keyPrefix string, pathPrefix string, d *schema.R
   }
 
   if d.HasChange(keyPrefix + "host_ports") {
-    ops = append(ops, &ReplaceOperation{
-      Path: pathPrefix + "HostPorts",
-      Value: d.Get(keyPrefix + "host_ports").([]interface{}),
-    })
+    oldV, _ := d.GetChange(keyPrefix + "host_ports")
+    host_ports := expandHostPorts(d.Get(keyPrefix + "host_ports").([]interface{}))
+
+    if len(oldV.([]interface{})) == 0 {
+      ops = append(ops, &AddOperation{
+        Path: pathPrefix + "/hostPorts",
+        Value: host_ports,
+      })
+    } else {
+      ops = append(ops, &ReplaceOperation{
+        Path: pathPrefix + "/hostPorts",
+        Value: host_ports,
+      })
+    }
+
   }
 
   if d.HasChange(keyPrefix + "privileged") {
