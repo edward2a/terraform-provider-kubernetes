@@ -376,7 +376,7 @@ func expandFSGroup(in []interface{}) v1beta1.FSGroupStrategyOptions {
   cfg := in[0].(map[string]interface{})
   obj := v1beta1.FSGroupStrategyOptions{
     Rule:       v1beta1.FSGroupStrategyType(cfg["rule"].(string)),
-    Ranges:     expandIDRanges(cfg["ranges"].([]interface{})),
+    Ranges:     expandIdRanges(cfg["ranges"].([]interface{})),
   }
 
   return obj
@@ -403,7 +403,7 @@ func expandRunAsGroup(in []interface{}) *v1beta1.RunAsGroupStrategyOptions {
   cfg := in[0].(map[string]interface{})
   obj := v1beta1.RunAsGroupStrategyOptions{
     Rule:       v1beta1.RunAsGroupStrategy(cfg["rule"].(string)),
-    Ranges:     expandIDRanges(cfg["ranges"].([]interface{})),
+    Ranges:     expandIdRanges(cfg["ranges"].([]interface{})),
   }
 
   return &obj
@@ -414,7 +414,7 @@ func expandRunAsUser(in []interface{}) v1beta1.RunAsUserStrategyOptions {
   cfg := in[0].(map[string]interface{})
   obj := v1beta1.RunAsUserStrategyOptions{
     Rule:       v1beta1.RunAsUserStrategy(cfg["rule"].(string)),
-    Ranges:     expandIDRanges(cfg["ranges"].([]interface{})),
+    Ranges:     expandIdRanges(cfg["ranges"].([]interface{})),
   }
 
   return obj
@@ -455,20 +455,20 @@ func expandSupplementalGroups(in []interface{}) v1beta1.SupplementalGroupsStrate
   cfg := in[0].(map[string]interface{})
   obj := v1beta1.SupplementalGroupsStrategyOptions{
     Rule:       v1beta1.SupplementalGroupsStrategyType(cfg["rule"].(string)),
-    Ranges:     expandIDRanges(cfg["ranges"].([]interface{})),
+    Ranges:     expandIdRanges(cfg["ranges"].([]interface{})),
   }
 
   return obj
 }
 
-func expandIDRanges(in []interface{}) []v1beta1.IDRange {
+func expandIdRanges(in []interface{}) []v1beta1.IDRange {
   obj := make([]v1beta1.IDRange, len(in), len(in))
 
   for i, idr := range in {
     cfg := idr.(map[string]interface{})
     obj[i] = v1beta1.IDRange{
-      Max: cfg["max"].(int64),
-      Min: cfg["min"].(int64),
+      Max: int64(cfg["max"].(int)),
+      Min: int64(cfg["min"].(int)),
     }
   }
 
