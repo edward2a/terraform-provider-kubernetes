@@ -76,21 +76,15 @@ func flattenPodSecurityPolicySpec(in v1beta1.PodSecurityPolicySpec) ([]interface
     att["required_drop_capabilities"] = in.RequiredDropCapabilities // string array
   }
 
-  if in.RunAsGroup != nil /*&& len(in.RunAsGroup) > 0*/ {
+  if in.RunAsGroup != nil {
     att["run_as_group"] = flattenRunAsGroup(in.RunAsGroup) // map array
   }
 
-  //if in.RunAsUser != nil && len(in.RunAsUser) > 0 {
-    att["run_as_user"] = flattenRunAsUser(in.RunAsUser) // map array
-  //}
+  att["run_as_user"] = flattenRunAsUser(in.RunAsUser) // map array
 
-  //if in.SELinux != nil && len(in.SELinux) > 0 {
-    att["se_linux"] = flattenSeLinux(in.SELinux) // map array
-  //}
+  att["se_linux"] = flattenSeLinux(in.SELinux) // map array
 
-  //if in.SupplementalGroups != nil && len(in.SupplementalGroups) > 0 {
-    att["supplemental_groups"] = flattenSupplementalGroups(in.SupplementalGroups) // map array
-  //}
+  att["supplemental_groups"] = flattenSupplementalGroups(in.SupplementalGroups) // map array
 
   if in.Volumes != nil && len(in.Volumes) > 0 {
     att["volumes"] = in.Volumes // string array
@@ -132,19 +126,12 @@ func flattenAllowedHostPaths(in []v1beta1.AllowedHostPath) ([]interface{}) {
 func flattenFSGroup(in v1beta1.FSGroupStrategyOptions) ([]interface{}) {
   att := make(map[string]interface{})
 
-  if in.Rule != "" { //!= nil {
+  if in.Rule != "" {
     att["rule"] = string(in.Rule)
   }
 
-  //if in.Ranges != nil && len(in.Ranges) > 0 {
   if len(in.Ranges) > 0 {
     att["ranges"] = flattenIdRanges(in.Ranges)
-  /*att["ranges"] = make(map[string]interface{}, len(in.Ranges), len(in.Ranges))
-    for i, r := range in.Ranges {
-      att["ranges"][i] = make([]interface{}, len(r), len(r))
-      att["ranges"][i]["max"] = int(r["max"])
-      att["ranges"][i]["min"] = int(r["min"])
-    }*/
   }
 
   return []interface{}{att}
