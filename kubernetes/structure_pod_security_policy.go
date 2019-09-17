@@ -226,15 +226,15 @@ func flattenSupplementalGroups(in v1beta1.SupplementalGroupsStrategyOptions) ([]
 }
 
 
-func flattenIdRanges(in []v1beta1.IDRange) ([]interface{}) {
-  att := make([]map[string]int64, len(in), len(in)) //{make(map[string]interface{})})
+func flattenIdRanges(in []v1beta1.IDRange) ([]map[string]int64) {
+  att := make([]map[string]int64, len(in), len(in))
   for i, r := range in {
     att[i] = make(map[string]int64)
     att[i]["max"] = int64(r.Max)
     att[i]["min"] = int64(r.Min)
   }
 
-  return []interface{}{att}
+  return att
 }
 
 // Expanders
