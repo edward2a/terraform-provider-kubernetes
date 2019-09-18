@@ -14,18 +14,13 @@ import (
 )
 
 var (
-  allowedFlexVolumeDoc                  = policy_v1beta1.AllowedFlexVolume{}.SwaggerDoc()
+  //allowedFlexVolumeDoc                  = policy_v1beta1.AllowedFlexVolume{}.SwaggerDoc()
   allowedHostPathDoc                    = policy_v1beta1.AllowedHostPath{}.SwaggerDoc()
-  evictionDoc                           = policy_v1beta1.Eviction{}.SwaggerDoc()
   fsGroupStrategyOptionsDoc             = policy_v1beta1.FSGroupStrategyOptions{}.SwaggerDoc()
   hostPortRangeDoc                      = policy_v1beta1.HostPortRange{}.SwaggerDoc()
   idRangeDoc                            = policy_v1beta1.IDRange{}.SwaggerDoc()
-  podDisruptionBudgetDoc                = policy_v1beta1.PodDisruptionBudget{}.SwaggerDoc()
-  podDisruptionBudgetListDoc            = policy_v1beta1.PodDisruptionBudgetList{}.SwaggerDoc()
-  podDisruptionBudgetSpecDoc            = policy_v1beta1.PodDisruptionBudgetSpec{}.SwaggerDoc()
-  podDisruptionBudgetStatusDoc          = policy_v1beta1.PodDisruptionBudgetStatus{}.SwaggerDoc()
-  podSecurityPolicyDoc                  = policy_v1beta1.PodSecurityPolicy{}.SwaggerDoc()
-  podSecurityPolicyListDoc              = policy_v1beta1.PodSecurityPolicyList{}.SwaggerDoc()
+  podSecurityPolicyDoc                  = policy_v1beta1.PodSecurityPolicy{}.SwaggerDoc()[""]
+  //podSecurityPolicyListDoc              = policy_v1beta1.PodSecurityPolicyList{}.SwaggerDoc()
   podSecurityPolicySpecDoc              = policy_v1beta1.PodSecurityPolicySpec{}.SwaggerDoc()
   runAsGroupStrategyOptionsDoc          = policy_v1beta1.RunAsGroupStrategyOptions{}.SwaggerDoc()
   runAsUserStrategyOptionsDoc           = policy_v1beta1.RunAsUserStrategyOptions{}.SwaggerDoc()
@@ -48,7 +43,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
       "metadata": metadataSchema("pod security policy", true),
       "spec": {
         Type:         schema.TypeList,
-        //Description:  podSecurityPolicySpecDoc,
+        Description:  podSecurityPolicyDoc,
         Required:     true,
         MaxItems:     1,
 
@@ -56,39 +51,39 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
           Schema: map[string]*schema.Schema{
             "allow_privilege_escalation": {
               Type:         schema.TypeBool,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["allowPrivilegeEscalation"],
               Optional:     true,
               Default:      false,    // API defaults to true
             },
 
             "allowed_capabilities": {
               Type:         schema.TypeList,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["allowedCapabilities"],
               Optional:     true,
               Elem: &schema.Schema{Type: schema.TypeString},
             },
 
             "allowed_flex_volumes": {
               Type:         schema.TypeList,
-              //Description:  allowedFlexVolumeDoc,
+              Description:  podSecurityPolicySpecDoc["allowedFlexVolumes"],
               Optional:     true,
               Elem: &schema.Schema{Type: schema.TypeString},
             },
 
             "allowed_host_paths": {
               Type:         schema.TypeList,
-              //Description:  allowedHostPathDoc,
+              Description:  podSecurityPolicySpecDoc["allowedHostPaths"],
               Optional:     true,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
                   "path_prefix": {
                     Type:         schema.TypeString,
-                    //Description:  "",
+                    Description:  allowedHostPathDoc["pathPrefix"],
                     Optional:     true,
                   },
                   "read_only": {
                     Type:         schema.TypeString,
-                    //Description:  "",
+                    Description:  allowedHostPathDoc["readOnly"],
                     Optional:     true,
                   },
                 },
@@ -97,60 +92,60 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
 
             "allowed_proc_mount_types": {
               Type:         schema.TypeList,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["allowedProcMountTypes"],
               Optional:     true,
               Elem: &schema.Schema{Type: schema.TypeString},
             },
 
             "allowed_unsafe_sysctls": {
               Type:         schema.TypeList,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["allowedUnsafeSysctls"],
               Optional:     true,
               Elem: &schema.Schema{Type: schema.TypeString},
             },
 
             "default_add_capabilities": {
               Type:         schema.TypeList,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["defaultAddCapabilities"],
               Optional:     true,
               Elem: &schema.Schema{Type: schema.TypeString},
             },
 
             "default_allow_privilege_escalation": {
               Type:         schema.TypeBool,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["defaultAllowPrivilegeEscalation"],
               Optional:     true,
               Elem: &schema.Schema{Type: schema.TypeString},
             },
 
             "forbidden_sysctls": {
               Type:         schema.TypeList,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["forbiddenSysctls"],
               Optional:     true,
               Elem: &schema.Schema{Type: schema.TypeString},
             },
 
             "fs_group": {
               Type:         schema.TypeList,
-              //Description:  fsGroupStrategyOptionsDoc,
+              Description:  podSecurityPolicySpecDoc["fsGroup"],
               Required:     true,
               MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
                   "ranges": {
                     Type:         schema.TypeList,
-                    //Description:  "",
+                    Description:  fsGroupStrategyOptionsDoc["ranges"],
                     Optional:     true,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "max": {
                           Type:         schema.TypeInt,
-                          //Description:  "",
+                          Description:  idRangeDoc["max"],
                           Optional:     true,
                         },
                         "min": {
                           Type:         schema.TypeInt,
-                          //Description:  "",
+                          Description:  idRangeDoc["min"],
                           Optional:     true,
                         },
                       },
@@ -158,7 +153,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                   },
                   "rule": {
                     Type:         schema.TypeString,
-                    //Description:  "",
+                    Description:  fsGroupStrategyOptionsDoc["rule"],
                     Required:     true,
                   },
                 },
@@ -167,36 +162,36 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
 
             "host_ipc": {
               Type:         schema.TypeBool,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["hostIPC"],
               Optional:     true,
             },
 
             "host_network": {
               Type:         schema.TypeBool,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["hostNetwork"],
               Optional:     true,
             },
 
             "host_pid": {
               Type:         schema.TypeBool,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["hostPID"],
               Optional:     true,
             },
 
             "host_ports": {
               Type:         schema.TypeList,
-              //Description:  hostPortRangeDoc,
+              Description:  podSecurityPolicySpecDoc["hostPorts"],
               Optional:     true,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
                   "max": {
                     Type:         schema.TypeInt,
-                    //Description:  "",
+                    Description:  hostPortRangeDoc["max"],
                     Optional:     true,
                    },
                   "min": {
                     Type:         schema.TypeInt,
-                    //Description:  "",
+                    Description:  hostPortRangeDoc["min"],
                     Optional:     true,
                   },
                 },
@@ -205,44 +200,44 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
 
             "privileged": {
               Type:         schema.TypeBool,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["privileged"],
               Optional:     true,
             },
 
             "readonly_root_filesystem": {
               Type:         schema.TypeBool,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["readOnlyRootFilesystem"],
               Optional:     true,
             },
 
             "required_drop_capabilities": {
               Type:         schema.TypeList,
-              //Description:  "",
+              Description:  podSecurityPolicySpecDoc["requiredDropCapabilities"],
               Optional:     true,
               Elem: &schema.Schema{Type: schema.TypeString},
             },
 
             "run_as_group": {
               Type:         schema.TypeList,
-              //Description:  runAsGroupStrategyOptionsDoc,
+              Description:  podSecurityPolicySpecDoc["runAsGroup"],
               Optional:     true,
               MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
                   "ranges": {
                     Type:         schema.TypeList,
-                    //Description:  "",
+                    Description:  runAsGroupStrategyOptionsDoc["ranges"],
                     Optional:     true,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "max": {
                           Type:         schema.TypeInt,
-                          //Description:  "",
+                          Description:  idRangeDoc["max"],
                           Optional:     true,
                         },
                         "min": {
                           Type:         schema.TypeInt,
-                          //Description:  "",
+                          Description:  idRangeDoc["min"],
                           Optional:     true,
                         },
                       },
@@ -250,7 +245,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                   },
                   "rule": {
                     Type:         schema.TypeString,
-                    //Description:  "",
+                    Description:  runAsGroupStrategyOptionsDoc["rule"],
                     Optional:     true,
                   },
                 },
@@ -259,25 +254,25 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
 
             "run_as_user": {
               Type:         schema.TypeList,
-              //Description:  runAsUserStrategyOptionsDoc,
+              Description:  podSecurityPolicySpecDoc["runAsUser"],
               Required:     true,
               MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
                   "ranges": {
                     Type:         schema.TypeList,
-                    //Description:  "",
+                    Description:  runAsUserStrategyOptionsDoc["ranges"],
                     Optional:     true,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "max": {
                           Type:         schema.TypeInt,
-                          //Description:  "",
+                          Description:  idRangeDoc["max"],
                           Optional:     true,
                         },
                         "min": {
                           Type:         schema.TypeInt,
-                          //Description:  "",
+                          Description:  idRangeDoc["min"],
                           Optional:     true,
                         },
                       },
@@ -285,7 +280,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                   },
                   "rule": {
                     Type:         schema.TypeString,
-                    //Description:  "",
+                    Description:  runAsUserStrategyOptionsDoc["rule"],
                     Required:     true,
                   },
                 },
@@ -294,19 +289,19 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
 
             "se_linux": {
               Type:         schema.TypeList,
-              //Description:  seLinuxStrategyOptionsDoc,
+              Description:  podSecurityPolicySpecDoc["seLinux"],
               Required:     true,
               MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
                   "rule": {
                     Type:         schema.TypeString,
-                    //Description:  "",
+                    Description:  seLinuxStrategyOptionsDoc["rule"],
                     Required:     true,
                   },
                   "se_linux_options": {
                     Type:         schema.TypeList,
-                    //Description:  "",
+                    Description:  seLinuxStrategyOptionsDoc["seLinuxOptions"],
                     Optional:     true,
                     MaxItems:     1,
                     Elem: &schema.Resource{
@@ -340,25 +335,25 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
 
             "supplemental_groups": {
               Type:         schema.TypeList,
-              //Description:  supplementalGroupsStrategyOptionsDoc,
+              Description:  podSecurityPolicySpecDoc["supplementalGroups"],
               Required:     true,
               MaxItems:     1,
               Elem: &schema.Resource{
                 Schema: map[string]*schema.Schema{
                   "ranges": {
                     Type:         schema.TypeList,
-                    //Description:  "",
+                    Description:  supplementalGroupsStrategyOptionsDoc["ranges"],
                     Optional:     true,
                     Elem: &schema.Resource{
                       Schema: map[string]*schema.Schema{
                         "max": {
                           Type:         schema.TypeInt,
-                          //Description:  "",
+                          Description:  idRangeDoc["max"],
                           Optional:     true,
                         },
                         "min": {
                           Type:         schema.TypeInt,
-                          //Description:  "",
+                          Description:  idRangeDoc["min"],
                           Optional:     true,
                         },
                       },
@@ -366,7 +361,7 @@ func resourceKubernetesPodSecurityPolicy() *schema.Resource {
                   },
                   "rule": {
                     Type:         schema.TypeString,
-                    //Description:  "",
+                    Description:  supplementalGroupsStrategyOptionsDoc["rule"],
                     Required:     true,
                   },
                 },
